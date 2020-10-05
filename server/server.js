@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 const home = require('./routes/home');
+const login = require('./routes/login');
 const mongoose = require('mongoose');
 
 // middlewares
@@ -23,6 +24,7 @@ mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: t
 
 // routes
 app.use(home);
+app.use('/login', login);
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
