@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const schema = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().max(256).required(),
+    email: yup.string().email().trim().required(),
+    password: yup.string().max(256).trim().required(),
 })
 
 function Login() {
