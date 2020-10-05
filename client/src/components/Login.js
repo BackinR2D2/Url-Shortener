@@ -39,7 +39,6 @@ function Login() {
             password: password
         })
             .then((resp) => {
-                console.log(resp);
                 if (!resp) {
                     return;
                 } else {

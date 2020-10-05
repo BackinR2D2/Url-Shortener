@@ -47,7 +47,6 @@ function Register() {
             confirmPass: confirmPass,
         })
             .then((resp) => {
-                console.log(resp);
                 if (!resp) {
                     return;
                 } else {
