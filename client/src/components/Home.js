@@ -26,14 +26,12 @@ function Home() {
     const classes = useStyles();
 
     const handleButton = (e) => {
-        //e.preventDefault();
         schema.isValid({
             url: url,
             slug: slug
         })
-            .then((data) => {
-                console.log(data);
-                if (!data) {
+            .then((resp) => {
+                if (!resp) {
                     return;
                 } else {
                     axios.post('/', { url, slug })

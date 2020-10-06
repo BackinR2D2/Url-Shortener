@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import * as yup from 'yup';
+import Modal from './static/Modal';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +26,7 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
-
+    const [isModal, setIsModal] = useState(false);
     const classes = useStyles();
 
     const handleEmail = (e) => {
@@ -53,11 +54,13 @@ function Register() {
                     if (confirmPass === password) {
                         axios.post('/register', { email, password })
                             .then((data) => {
-                                console.log(data);
+                                if (data.data.status === 'OK') {
+                                    setIsModal(true);
+                                }
                             })
                             .catch((err) => {
                                 // TODO: HANDLE ERROR
-                                console.log(err);
+                                alert('An error occured... Please try again.')
                             })
                     } else {
                         return;
@@ -87,6 +90,12 @@ function Register() {
                         Register
                     </Button>
                 </div>
+                {
+                    isModal === true ?
+                        <Modal email={email} pass={password} />
+                        :
+                        <></>
+                }
             </form>
         </div>
     )
