@@ -39,10 +39,11 @@ router.post('/', async (req, res) => {
 })
 
 router.post('/verify', async (req, res) => {
-    const { inp, email, pass } = req.body;
+    const { inp, email, password } = req.body;
+    console.log(inp, email, password);
     if (Number(inp) === code) {
         const salt = await bcrypt.genSalt(10);
-        const hashedPass = await bcrypt.hash(pass, salt);
+        const hashedPass = await bcrypt.hash(password, salt);
 
         const user = new User({
             email: email,

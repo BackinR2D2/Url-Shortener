@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import * as yup from 'yup';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,7 +21,7 @@ const schema = yup.object().shape({
 })
 
 function Login() {
-
+    const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const classes = useStyles();
@@ -45,6 +46,9 @@ function Login() {
                     axios.post('/login', { email, password })
                         .then((data) => {
                             console.log(data);
+                            if (data.data.status === 'OK') {
+                                history.push('/');
+                            }
                         })
                         .catch((err) => {
                             // TODO: HANDLE ERROR
@@ -62,10 +66,10 @@ function Login() {
         <div>
             <form className={classes.root}>
                 <div>
-                    <TextField id="outlined-basic" label="Email" variant="outlined" name="email" type="email" onChange={handleEmail} required />
+                    <TextField label="Email" variant="outlined" name="email" type="email" onChange={handleEmail} required />
                 </div>
                 <div>
-                    <TextField id="outlined-basic" label="Password" variant="outlined" name="password" type="password" onChange={handlePassword} required />
+                    <TextField label="Password" variant="outlined" name="password" type="password" onChange={handlePassword} required />
                 </div>
                 <div>
                     <Button variant="outlined" color="primary" onClick={handleLogin}>
