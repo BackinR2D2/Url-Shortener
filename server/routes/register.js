@@ -63,6 +63,11 @@ router.post('/verify', async (req, res) => {
                 })
                 return;
             })
+    } else {
+        res.status(400).json({
+            msg: 'Wrong code.'
+        })
+        return;
     }
 })
 
