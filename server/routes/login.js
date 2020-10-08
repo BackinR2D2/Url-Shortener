@@ -7,7 +7,6 @@ router.post('/', async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email: email });
-        // console.log(user);
         if (user) {
             const confirmpass = await bcrypt.compare(password, user.password)
             if (!confirmpass) {
@@ -18,10 +17,11 @@ router.post('/', async (req, res) => {
             } else {
                 // sign jwt token
                 const token = jwt.sign({ id: user._id }, process.env.secret, { expiresIn: '30d' })
-
-                res.json({
+                res.cookie('token', token, {
+                    httpOnly: true,
+                }).json({
                     status: 'OK',
-                    token
+                    data: user.createdAt,
                 })
                 return;
             }

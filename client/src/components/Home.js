@@ -40,6 +40,7 @@ function Home() {
                         })
                         .catch((err) => {
                             // TODO: HANDLE ERROR
+                            // alert with error message
                             console.log(err);
                         })
                 }

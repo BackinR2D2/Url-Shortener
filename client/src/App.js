@@ -10,6 +10,7 @@ import Home from './components/Home';
 import Account from './components/Account';
 import Login from './components/Login';
 import Register from './components/Register';
+import Auth from './components/Auth';
 
 function App() {
   return (
@@ -17,10 +18,10 @@ function App() {
       <Navbar />
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Auth Component={Home} />
         </Route>
         <Route path="/account">
-          <Account />
+          <Auth Component={Account} />
         </Route>
         <Route path="/login">
           <Login />
