@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 const home = require('./routes/home');
+const account = require('./routes/account');
 const login = require('./routes/login');
 const register = require('./routes/register');
 const helmet = require('helmet');
@@ -16,7 +17,7 @@ app.use(require('cors')());
 app.use(require('morgan')('dev'));
 app.use(cookieParser());
 // connect to db
-mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
     .then((_) => {
         console.log('Connected to DB.');
     })
@@ -29,6 +30,7 @@ mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: t
 app.use(home);
 app.use('/login', login);
 app.use('/register', register);
+app.use(account);
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);

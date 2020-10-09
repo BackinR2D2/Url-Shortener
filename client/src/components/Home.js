@@ -36,7 +36,9 @@ function Home() {
                 } else {
                     axios.post('/', { url, slug })
                         .then((data) => {
-                            console.log(data);
+                            if (data.data.status === 'OK') {
+                                alert('Link created.');
+                            }
                         })
                         .catch((err) => {
                             // TODO: HANDLE ERROR

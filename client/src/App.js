@@ -11,6 +11,7 @@ import Account from './components/Account';
 import Login from './components/Login';
 import Register from './components/Register';
 import Auth from './components/Auth';
+import Redirect from './components/Redirect';
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route path="/register">
           <Register />
+        </Route>
+        <Route path="/:id/url">
+          <Auth Component={Redirect} />
         </Route>
       </Switch>
     </Router>
