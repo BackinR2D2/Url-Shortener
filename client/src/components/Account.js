@@ -7,6 +7,11 @@ import * as yup from 'yup';
 
 const link = window.location.hostname;
 
+const schema = yup.object().shape({
+    oldSlug: yup.string().max(256).trim().required(),
+    newSlug: yup.string().max(256).trim().required(),
+})
+
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
@@ -25,6 +30,7 @@ function Account() {
     const [newSlug, setNewSlug] = useState('');
     const [form, setForm] = useState(false);
     const [oldSlug, setOldSlug] = useState('');
+    const [postsLength, setPostsLength] = useState();
 
     useEffect(() => {
         let isActive = true;
@@ -54,7 +60,8 @@ function Account() {
         axios.post('/account/delete-post', { slug })
             .then((resp) => {
                 if (resp.data.status === 'OK') {
-                    const { id } = resp.data;
+                    const { id, postsLen } = resp.data;
+                    setPostsLength(postsLen);
                     const deletedPost = document.getElementsByClassName(id)[0];
                     deletedPost.style.display = 'none';
                 }
@@ -66,19 +73,29 @@ function Account() {
     }
 
     const handleEdit = () => {
-        axios.put('/account/update-slug', { oldSlug, newSlug })
-            .then((resp) => {
-                if (resp.data.status === 'OK') {
-                    const { id } = resp.data;
-                    const updatedPost = document.getElementsByClassName(id)[1];
-                    updatedPost.innerText = `${link}/${newSlug}/url`;
-                    updatedPost.href = `${newSlug}/url`;
-                    setForm(false);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        schema.isValid({
+            oldSlug: oldSlug,
+            newSlug: newSlug
+        }).then((resp) => {
+            if (resp) {
+                axios.put('/account/update-slug', { oldSlug, newSlug })
+                    .then((resp) => {
+                        if (resp.data.status === 'OK') {
+                            const { id } = resp.data;
+                            const updatedPost = document.getElementsByClassName(id)[1];
+                            updatedPost.innerText = `${link}/${newSlug}/url`;
+                            updatedPost.href = `${newSlug}/url`;
+                            setForm(false);
+                        }
+                    })
+                    .catch((err) => {
+                        // TODO: HANDLE ERROR
+                        console.log(err);
+                    })
+            } else {
+                return;
+            }
+        })
     }
 
     return (
@@ -92,7 +109,7 @@ function Account() {
                     <p>Created At: {created}</p>
                     <hr />
                     <br />
-                    <button style={{ display: posts.length === 0 ? 'none' : 'block' }} onClick={() => setForm(true)}>Update</button>
+                    <button style={{ display: posts.length === 0 || postsLength === 0 ? 'none' : 'block' }} onClick={() => setForm(true)}>Update</button>
                     <div style={{ display: form === true ? 'block' : 'none' }} >
                         <div>
                             <TextField label="Old slug" variant="outlined" name="oldSlug" required onChange={(e) => setOldSlug(e.target.value)} />

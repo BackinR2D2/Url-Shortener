@@ -39,7 +39,8 @@ router.post('/account/delete-post', auth, async (req, res) => {
                 }, { new: true })
                 res.status(201).json({
                     status: 'OK',
-                    id: post.postID
+                    id: post.postID,
+                    postsLen: posts.length,
                 })
                 return;
             }
