@@ -10,18 +10,33 @@ router.post('/', auth, async (req, res) => {
     const uid = jwt.verify(req.cookies.token, process.env.secret).id;
     const user = await User.findOne({ _id: uid });
     const userPosts = user.posts;
-    userPosts.push({ url, slug, postID });
-    user.save()
-        .then((resp) => {
-            res.json({
-                status: 'OK'
-            })
+    let isUsed = false;
+    userPosts.forEach(post => {
+        if (post.slug === slug) {
+            isUsed = true;
+        }
+    });
+    if (isUsed) {
+        res.status(400).json({
+            msg: 'Slug is already in use.',
         })
-        .catch((err) => {
-            res.status(500).json({
-                msg: 'Some error occured... Try again',
+        return;
+    } else {
+        userPosts.push({ url, slug, postID });
+        user.save()
+            .then((resp) => {
+                res.json({
+                    status: 'OK'
+                })
             })
-        })
+            .catch((err) => {
+                res.status(500).json({
+                    msg: 'Some error occured... Try again',
+                })
+            })
+        return;
+    }
+
 })
 
 router.delete('/logout', auth, (req, res) => {

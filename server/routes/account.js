@@ -74,33 +74,6 @@ router.get('/:id/url', auth, async (req, res) => {
     }
 })
 
-router.put('/account/update-post', auth, async (req, res) => {
-    try {
-        const { slug, newSlug } = req.body;
-        const uid = jwt.verify(req.cookies.token, process.env.secret).id;
-        const user = await User.findOne({ _id: uid });
-        const posts = user.posts;
-        posts.forEach(async (post, i) => {
-            if (post.slug === slug || post.slug === user.posts[i].slug) {
-                post.slug = newSlug;
-                const saved = await user.save()
-                const savedUser = await User.findOneAndUpdate({ _id: uid }, {
-                    posts: saved.posts
-                }, { new: true })
-                res.json({
-                    status: 'OK',
-                    newSlug,
-                })
-                return;
-            }
-        })
-    } catch (error) {
-        res.status(500).json({
-            msg: 'Some error occured... Try again.',
-        })
-    }
-})
-
 router.put('/account/update-slug', auth, async (req, res) => {
     try {
         const { oldSlug, newSlug } = req.body;
@@ -108,12 +81,6 @@ router.put('/account/update-slug', auth, async (req, res) => {
         const user = await User.findOne({ _id: uid });
         const posts = user.posts;
         posts.forEach(async post => {
-            // if (post.slug !== oldSlug) {
-            //     res.status(400).json({
-            //         msg: 'Slug not correct',
-            //     });
-            //     return;
-            // }
             if (post.slug === oldSlug) {
                 post.slug = newSlug;
                 const saved = await user.save()
