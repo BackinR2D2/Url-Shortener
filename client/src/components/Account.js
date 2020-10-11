@@ -4,6 +4,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import * as yup from 'yup';
+import DeleteIcon from '@material-ui/icons/Delete';
+import UpdateIcon from '@material-ui/icons/Update';
+
+// DIALOG FOR DELETE / UPDATE
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const link = window.location.hostname;
 
@@ -22,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(1),
             width: '25ch',
         },
+        button: {
+            margin: theme.spacing(1),
+        }
     },
 }));
 
@@ -98,7 +109,9 @@ function Account() {
                     .then((resp) => {
                         if (resp.data.status === 'OK') {
                             const { id } = resp.data;
-                            const updatedPost = document.getElementsByClassName(id)[1];
+                            const updatedSlug = document.getElementsByClassName(id)[1];
+                            const updatedPost = document.getElementsByClassName(id)[2];
+                            updatedSlug.innerText = newSlug;
                             updatedPost.innerText = `${link}/${newSlug}/url`;
                             updatedPost.href = `${newSlug}/url`;
                             setForm(false);
@@ -114,54 +127,119 @@ function Account() {
         })
     }
 
+    const handleClose = () => {
+        setForm(false);
+    }
+
+    const handleDeleteClose = () => {
+        setDeleteForm(false);
+    }
+
     return (
         <div>
             {loading === true ?
                 <p>Loading...</p>
                 :
                 <div>
-                    <h2>Account</h2>
-                    <p>Email: {email}</p>
-                    <p>Created At: {created}</p>
+                    <div className="userInfo">
+                        <h2>Account</h2>
+                        <p>Email: {email}</p>
+                        <p>Created At: {created}</p>
+                    </div>
                     <hr />
                     <br />
-                    <button style={{ display: posts.length === 0 || postsLength === 0 ? 'none' : 'block' }} onClick={() => setForm(true)}>Update</button>
-                    <div style={{ display: form === true ? 'block' : 'none' }} >
-                        <div>
-                            <TextField label="Old slug" variant="outlined" name="oldSlug" required onChange={(e) => setOldSlug(e.target.value)} />
-                        </div>
-                        <div>
-                            <TextField label="New slug" variant="outlined" name="newSlug" required onChange={(e) => setNewSlug(e.target.value)} />
-                        </div>
-                        <Button variant="contained" color="primary" onClick={() => handleEdit()}>
-                            Save
+                    <div className="buttonSection">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            startIcon={<UpdateIcon />}
+                            style={{ display: posts.length === 0 || postsLength === 0 ? 'none' : 'block' }}
+                            onClick={() => setForm(true)}
+                        >
+                            Update
                         </Button>
-                        <Button variant="contained" color="secondary" onClick={() => setForm(false)}>
-                            Cancel
-                        </Button>
-                    </div>
-
-                    <button style={{ display: posts.length === 0 || postsLength === 0 ? 'none' : 'block' }} onClick={() => setDeleteForm(true)}>Delete</button>
-                    <div style={{ display: deleteForm === true ? 'block' : 'none' }}>
-                        <div>
-                            <TextField label="Old slug" variant="outlined" name="oldSlug" required onChange={(e) => setDeleteSlug(e.target.value)} />
-                        </div>
-                        <Button variant="contained" color="primary" onClick={() => handleDelete()}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                            startIcon={<DeleteIcon />}
+                            style={{ display: posts.length === 0 || postsLength === 0 ? 'none' : 'block' }}
+                            onClick={() => setDeleteForm(true)}
+                        >
                             Delete
                         </Button>
-                        <Button variant="contained" color="secondary" onClick={() => setDeleteForm(false)}>
-                            Cancel
-                        </Button>
+                    </div>
+                    <div className="posts container">
+                        {
+                            posts.map(post => (
+                                <div className={`card text-center ${post.postID}`} key={post.postID} >
+                                    <div className="card-header">
+                                        <h5 className={post.postID}>Slug: {post.slug}</h5>
+                                    </div>
+                                    <div className="card-body">
+                                        <h5 className="card-title">
+                                            Initial Url: <a href={`${post.url}`} target="_blank" rel="noopener noreferrer" > {post.url} </a>
+                                        </h5>
+                                        <h5>
+                                            New Url: <a href={`${post.slug}/url`} target="_blank" rel="noopener noreferrer" className={post.postID}> {`${link}/${post.slug}/url`} </a>
+                                        </h5>
+                                    </div>
+                                    <div className="card-footer text-muted">
+                                        Created at: {post.date}
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
                     {
-                        posts.map(post => (
-                            <div key={post.postID} className={post.postID} >
-                                <p>Original Url: <a href={`${post.url}`} target="_blank" rel="noopener noreferrer" > {post.url} </a></p>
-                                <div>
-                                    <p>Url: <a href={`${post.slug}/url`} target="_blank" rel="noopener noreferrer" className={post.postID}> {`${link}/${post.slug}/url`} </a></p>
-                                </div>
+                        form === true ?
+                            <div>
+                                <Dialog open={form} onClose={handleClose} aria-labelledby="form-dialog-title">
+                                    <DialogTitle id="form-dialog-title">
+                                        Update Slug
+                                </DialogTitle>
+                                    <DialogContent>
+                                        <div>
+                                            <TextField label="Slug" variant="outlined" name="oldSlug" required onChange={(e) => setOldSlug(e.target.value)} />
+                                        </div>
+                                        <div>
+                                            <TextField label="New slug" variant="outlined" name="newSlug" required onChange={(e) => setNewSlug(e.target.value)} />
+                                        </div>
+                                        <Button variant="contained" color="primary" onClick={() => handleEdit()}>
+                                            Save
+                                        </Button>
+                                        <Button variant="contained" color="secondary" onClick={() => setForm(false)}>
+                                            Cancel
+                                        </Button>
+                                    </DialogContent>
+                                </Dialog>
                             </div>
-                        ))
+                            :
+                            <></>
+                    }
+                    {
+                        deleteForm === true ?
+                            <div>
+                                <Dialog open={deleteForm} onClose={handleDeleteClose} aria-labelledby="form-dialog-title">
+                                    <DialogTitle id="form-dialog-title">
+                                        Delete Slug
+                                </DialogTitle>
+                                    <DialogContent>
+                                        <div>
+                                            <TextField label="Slug" variant="outlined" name="oldSlug" required onChange={(e) => setDeleteSlug(e.target.value)} />
+                                        </div>
+                                        <Button variant="contained" color="primary" onClick={() => handleDelete()}>
+                                            Delete
+                                        </Button>
+                                        <Button variant="contained" color="secondary" onClick={() => setDeleteForm(false)}>
+                                            Cancel
+                                        </Button>
+                                    </DialogContent>
+                                </Dialog>
+                            </div>
+                            :
+                            <></>
                     }
                 </div>
             }

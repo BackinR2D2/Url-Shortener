@@ -153,12 +153,12 @@ function Register() {
                             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                                 <DialogTitle id="form-dialog-title">
                                     Verify code
-                        </DialogTitle>
+                                </DialogTitle>
                                 <DialogContent>
                                     <TextField id="outlined-basic" label="Code" variant="outlined" onChange={handleInp} required />
                                     <Button variant="contained" color="primary" onClick={verify}>
                                         Verify
-                            </Button>
+                                    </Button>
                                 </DialogContent>
                             </Dialog>
                         </div>

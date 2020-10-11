@@ -7,6 +7,13 @@ const mongoose = require('mongoose');
 router.post('/', auth, async (req, res) => {
     const { url, slug } = req.body;
     const postID = mongoose.Types.ObjectId();
+
+    let date = new Date();
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    date = mm + '/' + dd + '/' + yyyy;
+
     const uid = jwt.verify(req.cookies.token, process.env.secret).id;
     const user = await User.findOne({ _id: uid });
     const userPosts = user.posts;
@@ -22,7 +29,7 @@ router.post('/', auth, async (req, res) => {
         })
         return;
     } else {
-        userPosts.push({ url, slug, postID });
+        userPosts.unshift({ url, slug, postID, date });
         user.save()
             .then((resp) => {
                 res.json({

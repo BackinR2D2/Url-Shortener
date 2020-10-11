@@ -10,3 +10,25 @@
 label + .MuiInput-formControl {
     margin-bottom: 16px;
 }
+
+.userInfo {
+    text-align: center;
+}
+
+.buttonSection {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.posts {
+    margin-top: 8vh;
+}
+
+.card {
+    margin: 4%;
+}
+
+.MuiButton-label {
+    display: initial !important;
+}
