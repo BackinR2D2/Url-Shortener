@@ -94,11 +94,16 @@ router.get('/:id/url', auth, async (req, res) => {
 router.put('/account/update-slug', auth, async (req, res) => {
     try {
         const { oldSlug, newSlug } = req.body;
+        let found = false;
         const uid = jwt.verify(req.cookies.token, process.env.secret).id;
         const user = await User.findOne({ _id: uid });
         const posts = user.posts;
         posts.forEach(async post => {
-            if (post.slug === oldSlug) {
+            if (post.slug === newSlug) {
+                found = true;
+                return;
+            }
+            if (post.slug === oldSlug && !found) {
                 post.slug = newSlug;
                 const saved = await user.save()
                 const savedUser = await User.findOneAndUpdate({ _id: uid }, {
@@ -115,6 +120,20 @@ router.put('/account/update-slug', auth, async (req, res) => {
     } catch (error) {
         res.status(500).json({
             msg: 'Some error occured... try again'
+        })
+    }
+})
+
+router.delete('/account/delete-account', auth, async (req, res) => {
+    try {
+        const uid = jwt.verify(req.cookies.token, process.env.secret).id;
+        const deletedUser = await User.findOneAndDelete({ _id: uid })
+        res.clearCookie('token').status(200).json({
+            status: 'OK',
+        })
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Some error occured... Try again',
         })
     }
 })

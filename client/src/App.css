@@ -2,6 +2,10 @@
     text-align: center;
 }
 
+.MuiInputBase-input {
+    font-size: 20px !important;
+}
+
 .mainInp {
     width: 100%;
     margin-top: 28vh;
@@ -13,6 +17,7 @@ label + .MuiInput-formControl {
 
 .userInfo {
     text-align: center;
+    margin: 2.4%;
 }
 
 .buttonSection {
@@ -26,9 +31,47 @@ label + .MuiInput-formControl {
 }
 
 .card {
-    margin: 4%;
+    margin: 6%;
 }
 
 .MuiButton-label {
+    display: initial !important;
+}
+
+.dialogTitle {
+    text-align: center;
+    font-size: 24px;
+    font-weight: lighter;
+    margin-bottom: -8px;
+}
+
+.MuiOutlinedInput-root {
+    margin: 4.6%;
+}
+
+.accountTitle {
+    font-weight: 100;
+    font-size: 40px;
+}
+
+.fz18 {
+    font-size: 18px;
+}
+
+.uinfo {
+    font-weight: 500;
+}
+
+@media (max-width: 314px) {
+    .buttonSection {
+        display: grid;
+    }
+
+    .MuiButton-root {
+        margin-bottom: 4vh;
+    }
+}
+
+.MuiButton-startIcon {
     display: initial !important;
 }

@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import * as yup from 'yup';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
-
+import { useHistory } from 'react-router-dom';
 // DIALOG FOR DELETE / UPDATE
 
 import Dialog from '@material-ui/core/Dialog';
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Account() {
     const classes = useStyles();
+    const history = useHistory();
     const [email, setEmail] = useState('');
     const [posts, setPosts] = useState([]);
     const [created, setCreated] = useState('');
@@ -48,6 +49,7 @@ function Account() {
     const [postsLength, setPostsLength] = useState();
     const [deleteForm, setDeleteForm] = useState(false);
     const [deleteSlug, setDeleteSlug] = useState('');
+    const [deleteDialog, setDeleteDialog] = useState(false);
 
     useEffect(() => {
         let isActive = true;
@@ -127,12 +129,30 @@ function Account() {
         })
     }
 
+    const handleDeleteAccount = () => {
+        axios.delete('/account/delete-account')
+            .then((resp) => {
+                if (resp.data.status === 'OK') {
+                    localStorage.removeItem('user_info');
+                    history.push('/register');
+                }
+            })
+            .catch((err) => {
+                // TODO: HANDLE ERROR
+                console.log(err);
+            })
+    }
+
     const handleClose = () => {
         setForm(false);
     }
 
     const handleDeleteClose = () => {
         setDeleteForm(false);
+    }
+
+    const handleDeleteDialog = () => {
+        setDeleteDialog(false);
     }
 
     return (
@@ -142,9 +162,18 @@ function Account() {
                 :
                 <div>
                     <div className="userInfo">
-                        <h2>Account</h2>
-                        <p>Email: {email}</p>
-                        <p>Created At: {created}</p>
+                        <h2 className="accountTitle">Account</h2>
+                        <p className="fz18"> Email: <span className="uinfo"> {email} </span></p>
+                        <p className="fz18"> Created at: <span className="uinfo"> {created}</span> </p>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                            startIcon={<DeleteIcon />}
+                            onClick={() => setDeleteDialog(true)}
+                        >
+                            Delete Account
+                        </Button>
                     </div>
                     <hr />
                     <br />
@@ -157,7 +186,7 @@ function Account() {
                             style={{ display: posts.length === 0 || postsLength === 0 ? 'none' : 'block' }}
                             onClick={() => setForm(true)}
                         >
-                            Update
+                            Update Slug
                         </Button>
                         <Button
                             variant="contained"
@@ -167,7 +196,7 @@ function Account() {
                             style={{ display: posts.length === 0 || postsLength === 0 ? 'none' : 'block' }}
                             onClick={() => setDeleteForm(true)}
                         >
-                            Delete
+                            Delete Slug
                         </Button>
                     </div>
                     <div className="posts container">
@@ -175,7 +204,7 @@ function Account() {
                             posts.map(post => (
                                 <div className={`card text-center ${post.postID}`} key={post.postID} >
                                     <div className="card-header">
-                                        <h5 className={post.postID}>Slug: {post.slug}</h5>
+                                        <h5 className={post.postID}>Slug <span className="uinfo">{post.slug}</span></h5>
                                     </div>
                                     <div className="card-body">
                                         <h5 className="card-title">
@@ -197,8 +226,8 @@ function Account() {
                             <div>
                                 <Dialog open={form} onClose={handleClose} aria-labelledby="form-dialog-title">
                                     <DialogTitle id="form-dialog-title">
-                                        Update Slug
-                                </DialogTitle>
+                                        <p className="dialogTitle">Update Slug</p>
+                                    </DialogTitle>
                                     <DialogContent>
                                         <div>
                                             <TextField label="Slug" variant="outlined" name="oldSlug" required onChange={(e) => setOldSlug(e.target.value)} />
@@ -206,12 +235,14 @@ function Account() {
                                         <div>
                                             <TextField label="New slug" variant="outlined" name="newSlug" required onChange={(e) => setNewSlug(e.target.value)} />
                                         </div>
-                                        <Button variant="contained" color="primary" onClick={() => handleEdit()}>
-                                            Save
+                                        <div className="buttonSection">
+                                            <Button variant="contained" color="primary" onClick={() => handleEdit()}>
+                                                Save
                                         </Button>
-                                        <Button variant="contained" color="secondary" onClick={() => setForm(false)}>
-                                            Cancel
+                                            <Button variant="contained" color="secondary" onClick={() => setForm(false)}>
+                                                Cancel
                                         </Button>
+                                        </div>
                                     </DialogContent>
                                 </Dialog>
                             </div>
@@ -223,18 +254,43 @@ function Account() {
                             <div>
                                 <Dialog open={deleteForm} onClose={handleDeleteClose} aria-labelledby="form-dialog-title">
                                     <DialogTitle id="form-dialog-title">
-                                        Delete Slug
-                                </DialogTitle>
+                                        <p className="dialogTitle">Delete Slug</p>
+                                    </DialogTitle>
                                     <DialogContent>
                                         <div>
                                             <TextField label="Slug" variant="outlined" name="oldSlug" required onChange={(e) => setDeleteSlug(e.target.value)} />
                                         </div>
-                                        <Button variant="contained" color="primary" onClick={() => handleDelete()}>
-                                            Delete
+                                        <div className="buttonSection">
+                                            <Button variant="contained" color="primary" onClick={() => handleDelete()}>
+                                                Delete
                                         </Button>
-                                        <Button variant="contained" color="secondary" onClick={() => setDeleteForm(false)}>
-                                            Cancel
+                                            <Button variant="contained" color="secondary" onClick={() => setDeleteForm(false)}>
+                                                Cancel
                                         </Button>
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
+                            </div>
+                            :
+                            <></>
+                    }
+                    {
+                        deleteDialog === true ?
+                            <div>
+                                <Dialog open={deleteDialog} onClose={handleDeleteDialog} aria-labelledby="form-dialog-title">
+                                    <DialogTitle id="form-dialog-title">
+                                        <p className="dialogTitle">Delete Account</p>
+                                    </DialogTitle>
+                                    <DialogContent>
+                                        <p>Confirming further will permanently delete your account.</p>
+                                        <div className="buttonSection">
+                                            <Button variant="contained" color="primary" onClick={() => handleDeleteAccount()}>
+                                                Delete
+                                            </Button>
+                                            <Button variant="contained" color="secondary" onClick={() => setDeleteDialog(false)}>
+                                                Cancel
+                                            </Button>
+                                        </div>
                                     </DialogContent>
                                 </Dialog>
                             </div>
