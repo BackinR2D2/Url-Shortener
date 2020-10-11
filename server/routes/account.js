@@ -25,12 +25,12 @@ router.get('/account', async (req, res) => {
 
 router.post('/account/delete-post', auth, async (req, res) => {
     try {
-        const { slug } = req.body;
+        const { deleteSlug } = req.body;
         const uid = jwt.verify(req.cookies.token, process.env.secret).id;
         const user = await User.findOne({ _id: uid });
         const posts = user.posts;
         posts.forEach(async (post, i) => {
-            if (post.slug === slug) {
+            if (post.slug === deleteSlug) {
                 posts.splice(i, 1);
                 // TODO: DELETE POSTS AND SAVE THE NEW POSTS WITHOUT THE DELETED POST D'OH
                 const saved = await user.save()
@@ -45,6 +45,22 @@ router.post('/account/delete-post', auth, async (req, res) => {
                 return;
             }
         })
+        // posts.forEach(async (post, i) => {
+        //     if (post.slug === slug) {
+        //         posts.splice(i, 1);
+        //         // TODO: DELETE POSTS AND SAVE THE NEW POSTS WITHOUT THE DELETED POST D'OH
+        //         const saved = await user.save()
+        //         const savedUser = await User.findOneAndUpdate({ _id: uid }, {
+        //             posts: saved.posts
+        //         }, { new: true })
+        //         res.status(201).json({
+        //             status: 'OK',
+        //             id: post.postID,
+        //             postsLen: posts.length,
+        //         })
+        //         return;
+        //     }
+        // })
     } catch (error) {
         res.status(500).json({
             msg: 'Some error occured... Try again.',

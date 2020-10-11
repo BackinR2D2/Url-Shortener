@@ -12,6 +12,10 @@ const schema = yup.object().shape({
     newSlug: yup.string().max(256).trim().required(),
 })
 
+const deleteSchema = yup.object().shape({
+    deleteSlug: yup.string().max(256).trim().required(),
+})
+
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
@@ -31,6 +35,8 @@ function Account() {
     const [form, setForm] = useState(false);
     const [oldSlug, setOldSlug] = useState('');
     const [postsLength, setPostsLength] = useState();
+    const [deleteForm, setDeleteForm] = useState(false);
+    const [deleteSlug, setDeleteSlug] = useState('');
 
     useEffect(() => {
         let isActive = true;
@@ -56,18 +62,28 @@ function Account() {
         }
     }, [])
 
-    const handleDelete = (slug) => {
-        axios.post('/account/delete-post', { slug })
+    const handleDelete = () => {
+        deleteSchema.isValid({
+            deleteSlug,
+        })
             .then((resp) => {
-                if (resp.data.status === 'OK') {
-                    const { id, postsLen } = resp.data;
-                    setPostsLength(postsLen);
-                    const deletedPost = document.getElementsByClassName(id)[0];
-                    deletedPost.style.display = 'none';
+                if (resp) {
+                    axios.post('/account/delete-post', { deleteSlug })
+                        .then((resp) => {
+                            if (resp.data.status === 'OK') {
+                                const { id, postsLen } = resp.data;
+                                setPostsLength(postsLen);
+                                const deletedPost = document.getElementsByClassName(id)[0];
+                                deletedPost.style.display = 'none';
+                                setDeleteForm(false);
+                            }
+                        })
+                } else {
+                    return;
                 }
             })
             .catch((err) => {
-                // TODO HANDLE ERROR
+                // TODO: HANDLE ERR
                 console.log(err);
             })
     }
@@ -124,15 +140,25 @@ function Account() {
                             Cancel
                         </Button>
                     </div>
+
+                    <button style={{ display: posts.length === 0 || postsLength === 0 ? 'none' : 'block' }} onClick={() => setDeleteForm(true)}>Delete</button>
+                    <div style={{ display: deleteForm === true ? 'block' : 'none' }}>
+                        <div>
+                            <TextField label="Old slug" variant="outlined" name="oldSlug" required onChange={(e) => setDeleteSlug(e.target.value)} />
+                        </div>
+                        <Button variant="contained" color="primary" onClick={() => handleDelete()}>
+                            Delete
+                        </Button>
+                        <Button variant="contained" color="secondary" onClick={() => setDeleteForm(false)}>
+                            Cancel
+                        </Button>
+                    </div>
                     {
                         posts.map(post => (
                             <div key={post.postID} className={post.postID} >
                                 <p>Original Url: <a href={`${post.url}`} target="_blank" rel="noopener noreferrer" > {post.url} </a></p>
                                 <div>
                                     <p>Url: <a href={`${post.slug}/url`} target="_blank" rel="noopener noreferrer" className={post.postID}> {`${link}/${post.slug}/url`} </a></p>
-                                    <div>
-                                        <button onClick={() => handleDelete(post.slug)}>Delete</button>
-                                    </div>
                                 </div>
                             </div>
                         ))

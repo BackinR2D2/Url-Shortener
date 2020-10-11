@@ -45,7 +45,6 @@ function Login() {
                 } else {
                     axios.post('/login', { email, password })
                         .then((data) => {
-                            console.log(data);
                             if (data.data.status === 'OK') {
                                 localStorage.setItem('user_info', JSON.stringify(data.data));
                                 history.push('/');

@@ -1,5 +1,12 @@
-.navbar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+.centerInp {
+    text-align: center;
+}
+
+.mainInp {
+    width: 100%;
+    margin-top: 28vh;
+}
+
+label + .MuiInput-formControl {
+    margin-bottom: 16px;
 }

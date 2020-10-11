@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
             margin: theme.spacing(1),
-            width: '25ch',
+            width: '100%',
         },
     },
 }));
@@ -62,8 +62,8 @@ function Home() {
     }
 
     return (
-        <div>
-            <form className={classes.root}>
+        <div className="container centerInp">
+            <form className="mainInp">
                 <div>
                     <TextField id="standard-basic" label="Url" name="url" onChange={handleUrl} />
                 </div>
