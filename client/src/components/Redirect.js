@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import Loader from './static/Loader';
 const id = window.location.href.split('/')[3];
 
 function Redirect() {
@@ -10,9 +10,11 @@ function Redirect() {
         let isActive = true;
         axios.get(`/${id}/url`)
             .then((resp) => {
-                console.log(resp.data.url);
-                setUrl(resp.data.url);
-                setLoading(false);
+                if (isActive) {
+                    console.log(resp.data.url);
+                    setUrl(resp.data.url);
+                    setLoading(false);
+                }
             })
             .catch((err) => {
                 // TODO: HANDLE ERROR
@@ -28,10 +30,12 @@ function Redirect() {
         <div>
             {
                 loading === true ?
-                    <p>Loading...</p>
+                    <div className="loader container mainInp centerInp">
+                        <Loader />
+                    </div>
                     :
-                    <div>
-                        {window.location.href = url}
+                    <div className="url container mainInp centerInp">
+                        <p>Url: {window.location.href = url}</p>
                     </div>
             }
         </div>

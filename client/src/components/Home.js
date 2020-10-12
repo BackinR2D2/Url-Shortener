@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 const schema = yup.object().shape({
     url: yup.string().trim().url().required(),
-    slug: yup.string().trim().max(40).required().matches(/^[\w\-]+$/i),
+    slug: yup.string().trim().max(40).required().matches(/^[\w-]+$/i),
 })
 
 function Home() {

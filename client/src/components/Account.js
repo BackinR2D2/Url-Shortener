@@ -17,12 +17,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 const link = window.location.hostname;
 
 const schema = yup.object().shape({
-    oldSlug: yup.string().max(40).trim().required().matches(/^[\w\-]+$/i),
-    newSlug: yup.string().max(40).trim().required().matches(/^[\w\-]+$/i),
+    oldSlug: yup.string().max(40).trim().required().matches(/^[\w-]+$/i),
+    newSlug: yup.string().max(40).trim().required().matches(/^[\w-]+$/i),
 })
 
 const deleteSchema = yup.object().shape({
-    deleteSlug: yup.string().max(40).trim().required().matches(/^[\w\-]+$/i),
+    deleteSlug: yup.string().max(40).trim().required().matches(/^[\w-]+$/i),
 })
 
 const useStyles = makeStyles((theme) => ({
