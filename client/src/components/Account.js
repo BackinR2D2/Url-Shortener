@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import { useHistory } from 'react-router-dom';
+import Loader from './static/Loader';
 // DIALOG FOR DELETE / UPDATE
 
 import Dialog from '@material-ui/core/Dialog';
@@ -16,12 +17,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 const link = window.location.hostname;
 
 const schema = yup.object().shape({
-    oldSlug: yup.string().max(256).trim().required(),
-    newSlug: yup.string().max(256).trim().required(),
+    oldSlug: yup.string().max(40).trim().required().matches(/^[\w\-]+$/i),
+    newSlug: yup.string().max(40).trim().required().matches(/^[\w\-]+$/i),
 })
 
 const deleteSchema = yup.object().shape({
-    deleteSlug: yup.string().max(256).trim().required(),
+    deleteSlug: yup.string().max(40).trim().required().matches(/^[\w\-]+$/i),
 })
 
 const useStyles = makeStyles((theme) => ({
@@ -113,7 +114,7 @@ function Account() {
                             const { id } = resp.data;
                             const updatedSlug = document.getElementsByClassName(id)[1];
                             const updatedPost = document.getElementsByClassName(id)[2];
-                            updatedSlug.innerText = newSlug;
+                            updatedSlug.innerText = `Slug ${newSlug}`;
                             updatedPost.innerText = `${link}/${newSlug}/url`;
                             updatedPost.href = `${newSlug}/url`;
                             setForm(false);
@@ -158,7 +159,9 @@ function Account() {
     return (
         <div>
             {loading === true ?
-                <p>Loading...</p>
+                <div className="loader container mainInp centerInp">
+                    <Loader />
+                </div>
                 :
                 <div>
                     <div className="userInfo">

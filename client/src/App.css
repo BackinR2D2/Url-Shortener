@@ -62,16 +62,21 @@ label + .MuiInput-formControl {
     font-weight: 500;
 }
 
-@media (max-width: 314px) {
+@media (max-width: 340px) {
     .buttonSection {
         display: grid;
     }
 
     .MuiButton-root {
-        margin-bottom: 4vh;
+        margin-bottom: 4vh !important;
     }
 }
 
 .MuiButton-startIcon {
     display: initial !important;
+}
+
+.makeStyles-root-2 {
+    justify-content: center;
+    align-items: center;
 }

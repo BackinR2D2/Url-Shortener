@@ -94,29 +94,59 @@ router.get('/:id/url', auth, async (req, res) => {
 router.put('/account/update-slug', auth, async (req, res) => {
     try {
         const { oldSlug, newSlug } = req.body;
+        if (oldSlug === newSlug) {
+            res.status(400).json({
+                status: 'Can not update into an already used slug.',
+            })
+            return;
+        }
         let found = false;
         const uid = jwt.verify(req.cookies.token, process.env.secret).id;
         const user = await User.findOne({ _id: uid });
         const posts = user.posts;
-        posts.forEach(async post => {
+
+        posts.forEach(post => {
             if (post.slug === newSlug) {
                 found = true;
-                return;
-            }
-            if (post.slug === oldSlug && !found) {
-                post.slug = newSlug;
-                const saved = await user.save()
-                const savedUser = await User.findOneAndUpdate({ _id: uid }, {
-                    posts: saved.posts
-                }, { new: true })
-                res.status(201).json({
-                    status: 'OK',
-                    newSlug,
-                    id: post.postID
-                })
-                return;
             }
         })
+
+        if (found) {
+            res.status(400).json({
+                msg: 'Slug is already in use.',
+            })
+            return;
+        } else {
+            posts.forEach(async post => {
+                if (post.slug === oldSlug) {
+                    post.slug = newSlug;
+                    const saved = await user.save()
+                    const savedUser = await User.findOneAndUpdate({ _id: uid }, {
+                        posts: saved.posts
+                    }, { new: true })
+                    res.status(201).json({
+                        status: 'OK',
+                        newSlug,
+                        id: post.postID
+                    })
+                    return;
+                }
+            })
+        }
+
+        // if (post.slug === oldSlug) {
+        //     post.slug = newSlug;
+        //     const saved = await user.save()
+        //     const savedUser = await User.findOneAndUpdate({ _id: uid }, {
+        //         posts: saved.posts
+        //     }, { new: true })
+        //     res.status(201).json({
+        //         status: 'OK',
+        //         newSlug,
+        //         id: post.postID
+        //     })
+        //     return;
+        // }
     } catch (error) {
         res.status(500).json({
             msg: 'Some error occured... try again'

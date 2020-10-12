@@ -63,8 +63,8 @@ function Login() {
     }
 
     return (
-        <div>
-            <form className={classes.root}>
+        <div className="container centerInp">
+            <form className="mainInp">
                 <div>
                     <TextField label="Email" variant="outlined" name="email" type="email" onChange={handleEmail} required />
                 </div>

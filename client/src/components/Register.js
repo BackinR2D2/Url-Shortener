@@ -132,40 +132,42 @@ function Register() {
 
     return (
         <div>
-            <form className={classes.root}>
-                <div>
-                    <TextField label="Email" variant="outlined" name="email" type="email" onChange={handleEmail} required />
-                </div>
-                <div>
-                    <TextField label="Password" variant="outlined" name="password" type="password" onChange={handlePassword} required />
-                </div>
-                <div>
-                    <TextField label="Confirm Password" variant="outlined" name="confirmPassword" type="password" onChange={handleConfirmPassword} required />
-                </div>
-                <div>
-                    <Button variant="outlined" color="primary" onClick={handleRegister}>
-                        Register
+            <div className="container centerInp">
+                <form className="mainInp">
+                    <div>
+                        <TextField label="Email" variant="outlined" name="email" type="email" onChange={handleEmail} required />
+                    </div>
+                    <div>
+                        <TextField label="Password" variant="outlined" name="password" type="password" onChange={handlePassword} required />
+                    </div>
+                    <div>
+                        <TextField label="Confirm Password" variant="outlined" name="confirmPassword" type="password" onChange={handleConfirmPassword} required />
+                    </div>
+                    <div>
+                        <Button variant="outlined" color="primary" onClick={handleRegister}>
+                            Register
                     </Button>
-                </div>
-                {
-                    isModal === true ?
-                        <div>
-                            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                                <DialogTitle id="form-dialog-title">
-                                    Verify code
+                    </div>
+                </form>
+            </div>
+            {
+                isModal === true ?
+                    <div>
+                        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                            <DialogTitle id="form-dialog-title">
+                                Verify code
                                 </DialogTitle>
-                                <DialogContent>
-                                    <TextField id="outlined-basic" label="Code" variant="outlined" onChange={handleInp} required />
-                                    <Button variant="contained" color="primary" onClick={verify}>
-                                        Verify
+                            <DialogContent>
+                                <TextField id="outlined-basic" label="Code" variant="outlined" onChange={handleInp} required />
+                                <Button variant="contained" color="primary" onClick={verify}>
+                                    Verify
                                     </Button>
-                                </DialogContent>
-                            </Dialog>
-                        </div>
-                        :
-                        <></>
-                }
-            </form>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+                    :
+                    <></>
+            }
         </div>
     )
 }
