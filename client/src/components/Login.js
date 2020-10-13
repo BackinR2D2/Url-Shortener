@@ -47,6 +47,12 @@ function Login() {
                         .then((data) => {
                             if (data.data.status === 'OK') {
                                 localStorage.setItem('user_info', JSON.stringify(data.data));
+                                const loginbtn = document.querySelector('.loginBtn')
+                                const registerbtn = document.querySelector('.registerBtn')
+                                const logoutbtn = document.querySelector('.logoutBtn')
+                                loginbtn.style.display = 'none';
+                                registerbtn.style.display = 'none';
+                                logoutbtn.style.display = 'block';
                                 history.push('/');
                             }
                         })

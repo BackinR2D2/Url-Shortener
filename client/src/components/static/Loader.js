@@ -15,7 +15,7 @@ export default function Loader() {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
+        <div className="center">
             <CircularProgress size={100} thickness={6} />
         </div>
     );

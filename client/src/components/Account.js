@@ -62,13 +62,19 @@ function Account() {
                         setEmail(resp.data.userInfo.email);
                         setPosts(resp.data.userInfo.posts);
                         setCreated(resp.data.userInfo.createdAt);
+                        const loginbtn = document.querySelector('.loginBtn')
+                        const registerbtn = document.querySelector('.registerBtn')
+                        const logoutbtn = document.querySelector('.logoutBtn')
+                        loginbtn.style.display = 'none';
+                        registerbtn.style.display = 'none';
+                        logoutbtn.style.display = 'block';
                         setLoading(false);
                     }
                 }
             })
             .catch((err) => {
                 // TODO: HANDLE ERROR
-                console.log(err);
+                history.push('/login');
             })
 
         return () => {

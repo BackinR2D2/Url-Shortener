@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -23,7 +23,17 @@ function Home() {
     const [url, setUrl] = useState('');
     const [slug, setSlug] = useState('');
 
+    useEffect(() => {
+        const loginbtn = document.querySelector('.loginBtn')
+        const registerbtn = document.querySelector('.registerBtn')
+        const logoutbtn = document.querySelector('.logoutBtn')
+        loginbtn.style.display = 'none';
+        registerbtn.style.display = 'none';
+        logoutbtn.style.display = 'block';
+    }, [])
+
     const classes = useStyles();
+
 
     const handleButton = (e) => {
         schema.isValid({

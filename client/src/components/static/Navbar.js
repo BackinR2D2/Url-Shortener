@@ -6,16 +6,6 @@ import Button from '@material-ui/core/Button';
 
 function Navbar() {
     const history = useHistory();
-    const [isLogged, setIsLogged] = useState(false);
-
-    // const checkLog = () => {
-    //     if (localStorage.getItem('user_info')) {
-    //         setIsLogged(true);
-    //     } else {
-    //         setIsLogged(false);
-    //     }
-    // }
-
     const listStyle = () => {
         const ul = document.querySelector('ul');
         window.onresize = displayWindowSize;
@@ -38,6 +28,12 @@ function Navbar() {
             .then((resp) => {
                 if (resp.data.status === 'OK') {
                     localStorage.removeItem('user_info');
+                    const loginbtn = document.querySelector('.loginBtn')
+                    const registerbtn = document.querySelector('.registerBtn')
+                    const logoutbtn = document.querySelector('.logoutBtn')
+                    loginbtn.style.display = 'block';
+                    registerbtn.style.display = 'block';
+                    logoutbtn.style.display = 'none';
                     history.push('/login');
                 }
             })
@@ -62,13 +58,13 @@ function Navbar() {
                         <Link className="nav-link" to="/account">Account</Link>
                     </li>
                     <li className="nav-item active">
-                        <Link className="nav-link" to="/login">Log in</Link>
+                        <Link className="nav-link loginBtn" to="/login">Log in</Link>
                     </li>
                     <li className="nav-item active">
-                        <Link className="nav-link" to="/register">Sign in</Link>
+                        <Link className="nav-link registerBtn" to="/register">Sign in</Link>
                     </li>
-                    <li className="nav-item active" style={{ display: isLogged === true ? 'none' : 'initial' }}>
-                        <Button className="logoutBtn nav-link" variant="contained" color="secondary" onClick={logout}>
+                    <li className="nav-item active">
+                        <Button className="logoutBtn " variant="contained" color="secondary" onClick={logout}>
                             Log out
                         </Button>
                     </li>
