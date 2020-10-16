@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import * as yup from 'yup';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -81,6 +81,11 @@ function Login() {
                     <Button variant="outlined" color="primary" onClick={handleLogin}>
                         Login
                     </Button>
+                </div>
+                <div>
+                    <small>
+                        Do not have an account? Go <Link to="/register">here</Link>.
+                    </small>
                 </div>
             </form>
         </div>

@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import * as yup from 'yup';
 import axios from 'axios';
+// import { useHistory } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,7 +55,10 @@ function Home() {
                         .catch((err) => {
                             // TODO: HANDLE ERROR
                             // alert with error message
-                            console.log(err);
+                            if (err.response.status === 403) {
+                                // alert with 403 not authorized error
+                                swal("Oops!", "Not authorized, you have to log in again :(", "error");
+                            }
                         })
                 }
             })

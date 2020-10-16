@@ -8,6 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import { useHistory } from 'react-router-dom';
 import Loader from './static/Loader';
+import swal from 'sweetalert';
 // DIALOG FOR DELETE / UPDATE
 
 import Dialog from '@material-ui/core/Dialog';
@@ -74,6 +75,7 @@ function Account() {
             })
             .catch((err) => {
                 // TODO: HANDLE ERROR
+                swal("Oops!", "Not authorized, you have to log in again :(", "error");
                 history.push('/login');
             })
 

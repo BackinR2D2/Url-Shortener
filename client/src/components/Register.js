@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -146,7 +146,12 @@ function Register() {
                     <div>
                         <Button variant="outlined" color="primary" onClick={handleRegister}>
                             Register
-                    </Button>
+                        </Button>
+                    </div>
+                    <div>
+                        <small>
+                            Already have an account? Go <Link to="/login">here</Link>.
+                        </small>
                     </div>
                 </form>
             </div>
