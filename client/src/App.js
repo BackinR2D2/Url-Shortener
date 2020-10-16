@@ -12,7 +12,6 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Auth from './components/Auth';
 import Redirect from './components/Redirect';
-// import IsLogged from './components/static/IsLogged';
 
 function App() {
   return (

@@ -8,7 +8,8 @@ const login = require('./routes/login');
 const register = require('./routes/register');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const path = require('path');
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,6 +33,14 @@ app.use('/login', login);
 app.use('/register', register);
 app.use(account);
 
+if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static(path.join(__dirname, '../client')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+    });
+}
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 })
