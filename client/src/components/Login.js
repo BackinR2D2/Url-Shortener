@@ -46,6 +46,13 @@ function Login() {
                                 history.push('/');
                             }
                         })
+                        .catch((err) => {
+                            if (err.response.status === 400) {
+                                swal("Oops!", "Email or password is wrong", "error");
+                            } else {
+                                swal("Oops!", "Something went wrong! Try again.", "error");
+                            }
+                        })
                 }
             })
             .catch((err) => {

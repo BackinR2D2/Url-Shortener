@@ -97,9 +97,9 @@ function Register() {
                                 // TODO: HANDLE ERROR
                                 setIsModal(false);
                                 if (err.response.status === 400) {
-                                    alert('Email exists already.');
+                                    swal("Oops!", "Email is already registered.", "error");
                                 } else {
-                                    alert('An error occured. Try again.');
+                                    swal("Oops!", "Something went wrong! Try again.", "error");
                                 }
                             })
                     } else {
