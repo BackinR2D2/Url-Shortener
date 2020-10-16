@@ -1,24 +1,14 @@
 import React, { useState } from 'react'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import * as yup from 'yup';
 import { useHistory, Link } from 'react-router-dom';
-// dialog
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import swal from 'sweetalert';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-    },
-}));
 
 const schema = yup.object().shape({
     email: yup.string().email().trim().required(),
@@ -39,7 +29,6 @@ function Register() {
     const [confirmPass, setConfirmPass] = useState('');
     const [isModal, setIsModal] = useState(false);
     const [errMsg, setErrMsg] = useState(false);
-    const classes = useStyles();
     const handleEmail = (e) => {
         setEmail(e.target.value);
     }

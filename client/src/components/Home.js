@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import * as yup from 'yup';
 import axios from 'axios';
-// import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '100%',
-        },
-    },
-}));
 
 const schema = yup.object().shape({
     url: yup.string().trim().url().required(),
@@ -34,7 +23,6 @@ function Home() {
         logoutbtn.style.display = 'block';
     }, [])
 
-    const classes = useStyles();
 
 
     const handleButton = (e) => {

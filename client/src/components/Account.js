@@ -51,35 +51,32 @@ function Account() {
     const [deleteSlug, setDeleteSlug] = useState('');
     const [deleteDialog, setDeleteDialog] = useState(false);
 
-    useEffect(() => {
-        let isActive = true;
-
+    const fetchInfo = () => {
         axios.get('/account')
             .then((resp) => {
-                if (isActive) {
-                    if (resp.data.status === 'OK') {
-                        setEmail(resp.data.userInfo.email);
-                        setPosts(resp.data.userInfo.posts);
-                        setCreated(resp.data.userInfo.createdAt);
-                        const loginbtn = document.querySelector('.loginBtn')
-                        const registerbtn = document.querySelector('.registerBtn')
-                        const logoutbtn = document.querySelector('.logoutBtn')
-                        loginbtn.style.display = 'none';
-                        registerbtn.style.display = 'none';
-                        logoutbtn.style.display = 'block';
-                        setLoading(false);
-                    }
+                if (resp.data.status === 'OK') {
+                    const date = resp.data.userInfo.createdAt.split('T')[0];
+                    setEmail(resp.data.userInfo.email);
+                    setPosts(resp.data.userInfo.posts);
+                    setCreated(date);
+                    const loginbtn = document.querySelector('.loginBtn')
+                    const registerbtn = document.querySelector('.registerBtn')
+                    const logoutbtn = document.querySelector('.logoutBtn')
+                    loginbtn.style.display = 'none';
+                    registerbtn.style.display = 'none';
+                    logoutbtn.style.display = 'block';
+                    setLoading(false);
                 }
+
             })
             .catch((err) => {
                 swal("Oops!", "Not authorized, you have to log in again :(", "error");
                 history.push('/login');
             })
 
-        return () => {
-            isActive = false;
-        }
-    }, [])
+    }
+
+    useEffect(fetchInfo, [])
 
     const handleDelete = () => {
         deleteSchema.isValid({
