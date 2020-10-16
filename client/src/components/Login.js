@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import * as yup from 'yup';
 import { useHistory, Link } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,15 +57,11 @@ function Login() {
                                 history.push('/');
                             }
                         })
-                        .catch((err) => {
-                            // TODO: HANDLE ERROR
-                            console.log(err);
-                        })
                 }
             })
             .catch((err) => {
                 // TODO: HANDLE ERROR
-                console.log(err);
+                swal("Oops!", "Something went wrong! Try again.", "error");
             })
     }
 

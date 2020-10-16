@@ -49,22 +49,20 @@ function Home() {
                     axios.post('/', { url, slug })
                         .then((data) => {
                             if (data.data.status === 'OK') {
-                                alert('Link created.');
+                                swal("Link created", "Your url has been created, go to account to check it out.", "success");
                             }
                         })
                         .catch((err) => {
-                            // TODO: HANDLE ERROR
-                            // alert with error message
                             if (err.response.status === 403) {
-                                // alert with 403 not authorized error
                                 swal("Oops!", "Not authorized, you have to log in again :(", "error");
+                            } else {
+                                swal("Oops!", "Slug is already in use!", "error");
                             }
                         })
                 }
             })
             .catch((err) => {
-                // TODO: HANDLE ERROR
-                console.log(err);
+                swal("Oops!", "Something went wrong! Try again.", "error");
             })
     }
 

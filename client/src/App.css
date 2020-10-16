@@ -121,3 +121,14 @@ label + .MuiInput-formControl {
       margin: 12px !important;
       font-size: 14px;
 }
+
+.dfac {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.errMsg {
+    text-align: center;
+    color: red;
+}

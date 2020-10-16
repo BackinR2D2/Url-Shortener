@@ -4,12 +4,12 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import * as yup from 'yup';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 // dialog
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,6 +38,7 @@ function Register() {
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
     const [isModal, setIsModal] = useState(false);
+    const [errMsg, setErrMsg] = useState(false);
     const classes = useStyles();
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -71,27 +72,21 @@ function Register() {
                         .then((res) => {
                             if (res.data.status === 'OK') {
                                 history.push('/login');
-                            } else {
-                                // TODO: HANDLE ERROR
                             }
                         })
                         .catch((err) => {
-                            // TODO: HANDLE ERROR
-                            console.log(err);
+                            setErrMsg(true);
                         })
                 }
             })
             .catch((er) => {
-                // TODO: HANDLE ERROR
-                console.log(er);
+                swal("Oops!", "Something went wrong! Try again.", "error");
             })
     }
 
 
 
     const handleRegister = () => {
-        // setIsOpen(true);
-        // setIsModal(true);
         schema.isValid({
             email: email,
             password: password,
@@ -107,7 +102,6 @@ function Register() {
                                 if (data.data.status === 'OK') {
                                     setIsModal(true);
                                     setOpen(true);
-                                    // setIsOpen(true);
                                 }
                             })
                             .catch((err) => {
@@ -126,7 +120,7 @@ function Register() {
             })
             .catch((err) => {
                 // TODO: HANDLE ERROR
-                console.log(err);
+                swal("Oops!", "Something went wrong! Try again.", "error");
             })
     }
 
@@ -160,13 +154,25 @@ function Register() {
                     <div>
                         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                             <DialogTitle id="form-dialog-title">
-                                Verify code
-                                </DialogTitle>
+                                <p className="dialogTitle">Update Slug</p>
+                            </DialogTitle>
                             <DialogContent>
-                                <TextField id="outlined-basic" label="Code" variant="outlined" onChange={handleInp} required />
-                                <Button variant="contained" color="primary" onClick={verify}>
-                                    Verify
+                                <div className="dfac">
+                                    <TextField id="outlined-basic" label="Code" variant="outlined" onChange={handleInp} required />
+                                    <Button variant="contained" color="primary" onClick={verify}>
+                                        Verify
                                     </Button>
+                                </div>
+                                <div className="errMsg">
+                                    {
+                                        errMsg === true ?
+                                            <small>
+                                                Wrong code
+                                            </small>
+                                            :
+                                            <></>
+                                    }
+                                </div>
                             </DialogContent>
                         </Dialog>
                     </div>

@@ -9,8 +9,6 @@ import UpdateIcon from '@material-ui/icons/Update';
 import { useHistory } from 'react-router-dom';
 import Loader from './static/Loader';
 import swal from 'sweetalert';
-// DIALOG FOR DELETE / UPDATE
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -74,7 +72,6 @@ function Account() {
                 }
             })
             .catch((err) => {
-                // TODO: HANDLE ERROR
                 swal("Oops!", "Not authorized, you have to log in again :(", "error");
                 history.push('/login');
             })
@@ -105,8 +102,7 @@ function Account() {
                 }
             })
             .catch((err) => {
-                // TODO: HANDLE ERR
-                console.log(err);
+                swal("Oops!", "Something went wrong! Try again.", "error");
             })
     }
 
@@ -129,8 +125,11 @@ function Account() {
                         }
                     })
                     .catch((err) => {
-                        // TODO: HANDLE ERROR
-                        console.log(err);
+                        if (err.response.status === 400) {
+                            swal("Oops!", "Can not update slug with an already existing slug", "error");
+                        } else {
+                            swal("Oops!", "Something went wrong! Try again.", "error");
+                        }
                     })
             } else {
                 return;
@@ -147,8 +146,7 @@ function Account() {
                 }
             })
             .catch((err) => {
-                // TODO: HANDLE ERROR
-                console.log(err);
+                swal("Oops!", "Something went wrong! Try again.", "error");
             })
     }
 
