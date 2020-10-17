@@ -57,7 +57,7 @@ function Register() {
                 if (!res) {
                     return;
                 } else {
-                    axios.post('/register/verify', { inp, email, password })
+                    axios.post('https://url-shortener-ra.herokuapp.com/register/verify', { inp, email, password })
                         .then((res) => {
                             if (res.data.status === 'OK') {
                                 history.push('/login');
