@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
                 }).json({
                     status: 'OK',
                     data: user.createdAt,
+                    token: token
                 })
                 return;
             }
