@@ -33,7 +33,7 @@ function Login() {
                 if (!resp) {
                     return;
                 } else {
-                    axios.post('/login', { email, password })
+                    axios.post('https://url-shortener-ra.herokuapp.com/login', { email, password })
                         .then((data) => {
                             if (data.data.status === 'OK') {
                                 localStorage.setItem('user_info', JSON.stringify(data.data));

@@ -52,7 +52,7 @@ function Account() {
     const [deleteDialog, setDeleteDialog] = useState(false);
 
     const fetchInfo = () => {
-        axios.get('/account')
+        axios.get('https://url-shortener-ra.herokuapp.com/account')
             .then((resp) => {
                 if (resp.data.status === 'OK') {
                     const date = resp.data.userInfo.createdAt.split('T')[0];
@@ -84,7 +84,7 @@ function Account() {
         })
             .then((resp) => {
                 if (resp) {
-                    axios.post('/account/delete-post', { deleteSlug })
+                    axios.post('https://url-shortener-ra.herokuapp.com/account/delete-post', { deleteSlug })
                         .then((resp) => {
                             if (resp.data.status === 'OK') {
                                 const { id, postsLen } = resp.data;
@@ -109,7 +109,7 @@ function Account() {
             newSlug: newSlug
         }).then((resp) => {
             if (resp) {
-                axios.put('/account/update-slug', { oldSlug, newSlug })
+                axios.put('https://url-shortener-ra.herokuapp.com/account/update-slug', { oldSlug, newSlug })
                     .then((resp) => {
                         if (resp.data.status === 'OK') {
                             const { id } = resp.data;
@@ -135,7 +135,7 @@ function Account() {
     }
 
     const handleDeleteAccount = () => {
-        axios.delete('/account/delete-account')
+        axios.delete('https://url-shortener-ra.herokuapp.com/account/delete-account')
             .then((resp) => {
                 if (resp.data.status === 'OK') {
                     localStorage.removeItem('user_info');

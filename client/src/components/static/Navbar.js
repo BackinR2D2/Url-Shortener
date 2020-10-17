@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import swal from 'sweetalert';
 
 function Navbar() {
     const history = useHistory();
@@ -24,7 +25,7 @@ function Navbar() {
 
 
     const logout = () => {
-        axios.delete('/logout')
+        axios.delete('https://url-shortener-ra.herokuapp.com/logout')
             .then((resp) => {
                 if (resp.data.status === 'OK') {
                     localStorage.removeItem('user_info');
@@ -39,7 +40,7 @@ function Navbar() {
             })
             .catch((err) => {
                 // TODO: HANDLE ERROR
-                console.log(err);
+                swal("Oops!", "Something went wrong! Try again.", "error");
             })
     }
 

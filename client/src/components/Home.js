@@ -34,7 +34,7 @@ function Home() {
                 if (!resp) {
                     return;
                 } else {
-                    axios.post('/', { url, slug })
+                    axios.post('https://url-shortener-ra.herokuapp.com/', { url, slug })
                         .then((data) => {
                             if (data.data.status === 'OK') {
                                 swal("Link created", "Your url has been created, go to account to check it out.", "success");

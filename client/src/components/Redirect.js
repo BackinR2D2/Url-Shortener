@@ -8,7 +8,7 @@ function Redirect() {
     const [url, setUrl] = useState('');
     useEffect(() => {
         let isActive = true;
-        axios.get(`/${id}/url`)
+        axios.get(`https://url-shortener-ra.herokuapp.com/${id}/url`)
             .then((resp) => {
                 if (isActive) {
                     console.log(resp.data.url);

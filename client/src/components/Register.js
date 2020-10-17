@@ -86,7 +86,7 @@ function Register() {
                     return;
                 } else {
                     if (confirmPass === password) {
-                        axios.post('/register', { email, password })
+                        axios.post('https://url-shortener-ra.herokuapp.com/register', { email, password })
                             .then((data) => {
                                 if (data.data.status === 'OK') {
                                     setIsModal(true);
