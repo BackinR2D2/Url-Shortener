@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 // middlewares
-//app.use(require('cors')());
+app.use(require('cors')());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
