@@ -23,7 +23,7 @@ router.get('/account', async (req, res) => {
     }
 })
 
-router.post('/account/delete-post', auth, async (req, res) => {
+router.post('/account/delete-post', async (req, res) => {
     try {
         const { deleteSlug } = req.body;
         const uid = jwt.verify(req.cookies.token, process.env.secret).id;
@@ -69,7 +69,7 @@ router.post('/account/delete-post', auth, async (req, res) => {
     }
 })
 
-router.get('/:id/url', auth, async (req, res) => {
+router.get('/:id/url', async (req, res) => {
     try {
         const { id } = req.params;
         const uid = jwt.verify(req.cookies.token, process.env.secret).id;

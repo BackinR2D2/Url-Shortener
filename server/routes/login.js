@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 router.post('/', async (req, res) => {
     try {
+        console.log('HELLO TEST SIGNING TOKEN');
         const { email, password } = req.body;
         const user = await User.findOne({ email: email });
         if (user) {
@@ -19,10 +20,10 @@ router.post('/', async (req, res) => {
                 const token = jwt.sign({ id: user._id }, process.env.secret)
                 res.cookie('token', token, {
                     httpOnly: true,
+                    secure: true,
                 }).json({
                     status: 'OK',
                     data: user.createdAt,
-                    token: token
                 })
                 return;
             }
