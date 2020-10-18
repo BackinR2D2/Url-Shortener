@@ -37,6 +37,7 @@ function Login() {
                         .then((data) => {
                             if (data.data.status === 'OK') {
                                 localStorage.setItem('user_info', JSON.stringify(data.data));
+                                console.log(data.data.token);
                                 localStorage.setItem('token', data.data.token);
                                 const loginbtn = document.querySelector('.loginBtn')
                                 const registerbtn = document.querySelector('.registerBtn')
