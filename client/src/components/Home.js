@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import * as yup from 'yup';
 import axios from 'axios';
 import swal from 'sweetalert';
+import config from './static/config';
 
 const schema = yup.object().shape({
     url: yup.string().trim().url().required(),
@@ -34,7 +35,11 @@ function Home() {
                 if (!resp) {
                     return;
                 } else {
-                    axios.post('https://url-shortener-ra.herokuapp.com/', { url, slug })
+                    axios.post(`${config.URL}/`, { url, slug }, {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    })
                         .then((data) => {
                             if (data.data.status === 'OK') {
                                 swal("Link created", "Your url has been created, go to account to check it out.", "success");

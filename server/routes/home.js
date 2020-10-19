@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 router.post('/', auth, async (req, res) => {
+    const { id } = req.user;
+    console.log(req.user);
     const { url, slug } = req.body;
     const postID = mongoose.Types.ObjectId();
 
@@ -13,9 +15,7 @@ router.post('/', auth, async (req, res) => {
     const mm = String(date.getMonth() + 1).padStart(2, '0');
     const yyyy = date.getFullYear();
     date = mm + '/' + dd + '/' + yyyy;
-
-    const uid = jwt.verify(req.cookies.token, process.env.secret).id;
-    const user = await User.findOne({ _id: uid });
+    const user = await User.findOne({ _id: id });
     const userPosts = user.posts;
     let isUsed = false;
     userPosts.forEach(post => {

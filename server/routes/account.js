@@ -3,10 +3,11 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/users');
 const auth = require('./auth');
 
-router.get('/account', async (req, res) => {
+router.get('/account', auth, async (req, res) => {
     try {
-        const uid = jwt.verify(req.cookies.token, process.env.secret).id;
-        const user = await User.findOne({ _id: uid });
+        const { id } = req.user;
+        // const uid = jwt.verify(req.cookies.token, process.env.secret).id;
+        const user = await User.findOne({ _id: id });
         const userInfo = {
             posts: user.posts,
             email: user.email,
@@ -23,18 +24,19 @@ router.get('/account', async (req, res) => {
     }
 })
 
-router.post('/account/delete-post', async (req, res) => {
+router.post('/account/delete-post', auth, async (req, res) => {
     try {
         const { deleteSlug } = req.body;
-        const uid = jwt.verify(req.cookies.token, process.env.secret).id;
-        const user = await User.findOne({ _id: uid });
+        const { id } = req.user;
+        // const uid = jwt.verify(req.cookies.token, process.env.secret).id;
+        const user = await User.findOne({ _id: id });
         const posts = user.posts;
         posts.forEach(async (post, i) => {
             if (post.slug === deleteSlug) {
                 posts.splice(i, 1);
                 // TODO: DELETE POSTS AND SAVE THE NEW POSTS WITHOUT THE DELETED POST D'OH
                 const saved = await user.save()
-                const savedUser = await User.findOneAndUpdate({ _id: uid }, {
+                const savedUser = await User.findOneAndUpdate({ _id: id }, {
                     posts: saved.posts
                 }, { new: true })
                 res.status(201).json({
@@ -45,22 +47,6 @@ router.post('/account/delete-post', async (req, res) => {
                 return;
             }
         })
-        // posts.forEach(async (post, i) => {
-        //     if (post.slug === slug) {
-        //         posts.splice(i, 1);
-        //         // TODO: DELETE POSTS AND SAVE THE NEW POSTS WITHOUT THE DELETED POST D'OH
-        //         const saved = await user.save()
-        //         const savedUser = await User.findOneAndUpdate({ _id: uid }, {
-        //             posts: saved.posts
-        //         }, { new: true })
-        //         res.status(201).json({
-        //             status: 'OK',
-        //             id: post.postID,
-        //             postsLen: posts.length,
-        //         })
-        //         return;
-        //     }
-        // })
     } catch (error) {
         res.status(500).json({
             msg: 'Some error occured... Try again.',
@@ -69,10 +55,11 @@ router.post('/account/delete-post', async (req, res) => {
     }
 })
 
-router.get('/:id/url', async (req, res) => {
+router.get('/:id/url', auth, async (req, res) => {
     try {
         const { id } = req.params;
-        const uid = jwt.verify(req.cookies.token, process.env.secret).id;
+        const uid = req.user.id;
+        // const uid = jwt.verify(req.cookies.token, process.env.secret).id;
         const user = await User.findOne({ _id: uid });
         const posts = user.posts;
         posts.forEach(post => {
@@ -101,7 +88,7 @@ router.put('/account/update-slug', auth, async (req, res) => {
             return;
         }
         let found = false;
-        const uid = jwt.verify(req.cookies.token, process.env.secret).id;
+        const uid = req.user.id;
         const user = await User.findOne({ _id: uid });
         const posts = user.posts;
 
@@ -133,20 +120,6 @@ router.put('/account/update-slug', auth, async (req, res) => {
                 }
             })
         }
-
-        // if (post.slug === oldSlug) {
-        //     post.slug = newSlug;
-        //     const saved = await user.save()
-        //     const savedUser = await User.findOneAndUpdate({ _id: uid }, {
-        //         posts: saved.posts
-        //     }, { new: true })
-        //     res.status(201).json({
-        //         status: 'OK',
-        //         newSlug,
-        //         id: post.postID
-        //     })
-        //     return;
-        // }
     } catch (error) {
         res.status(500).json({
             msg: 'Some error occured... try again'
@@ -156,7 +129,7 @@ router.put('/account/update-slug', auth, async (req, res) => {
 
 router.delete('/account/delete-account', auth, async (req, res) => {
     try {
-        const uid = jwt.verify(req.cookies.token, process.env.secret).id;
+        const uid = req.user.id;
         const deletedUser = await User.findOneAndDelete({ _id: uid })
         res.clearCookie('token').status(200).json({
             status: 'OK',

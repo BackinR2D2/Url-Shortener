@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import swal from 'sweetalert';
+import config from './config';
 
 function Navbar() {
     const history = useHistory();
@@ -25,10 +26,12 @@ function Navbar() {
 
 
     const logout = () => {
-        axios.delete('https://url-shortener-ra.herokuapp.com/logout')
+        axios.delete(`${config.URL}/logout`, {
+            headers: config.setHeaders
+        })
             .then((resp) => {
                 if (resp.data.status === 'OK') {
-                    localStorage.removeItem('user_info');
+                    localStorage.removeItem('token');
                     const loginbtn = document.querySelector('.loginBtn')
                     const registerbtn = document.querySelector('.registerBtn')
                     const logoutbtn = document.querySelector('.logoutBtn')

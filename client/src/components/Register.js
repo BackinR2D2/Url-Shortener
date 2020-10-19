@@ -8,7 +8,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import swal from 'sweetalert';
-
+import config from './static/config';
 
 const schema = yup.object().shape({
     email: yup.string().email().trim().required(),
@@ -57,7 +57,7 @@ function Register() {
                 if (!res) {
                     return;
                 } else {
-                    axios.post('https://url-shortener-ra.herokuapp.com/register/verify', { inp, email, password })
+                    axios.post(`${config.URL}/register/verify`, { inp, email, password })
                         .then((res) => {
                             if (res.data.status === 'OK') {
                                 history.push('/login');
@@ -86,7 +86,7 @@ function Register() {
                     return;
                 } else {
                     if (confirmPass === password) {
-                        axios.post('https://url-shortener-ra.herokuapp.com/register', { email, password })
+                        axios.post(`${config.URL}/register`, { email, password })
                             .then((data) => {
                                 if (data.data.status === 'OK') {
                                     setIsModal(true);
@@ -143,7 +143,7 @@ function Register() {
                     <div>
                         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                             <DialogTitle id="form-dialog-title">
-                                <p className="dialogTitle">Update Slug</p>
+                                <p className="dialogTitle">Verify Slug</p>
                             </DialogTitle>
                             <DialogContent>
                                 <div className="dfac">

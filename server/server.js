@@ -14,8 +14,8 @@ const path = require('path');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(require('cors')());
 app.use(require('morgan')('dev'));
+app.use(require('cors')());
 app.use(cookieParser());
 // connect to db
 mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })

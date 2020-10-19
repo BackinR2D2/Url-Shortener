@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Loader from './static/Loader';
+import config from './static/config';
+import swal from 'sweetalert';
 const id = window.location.href.split('/')[3];
 
 function Redirect() {
@@ -8,7 +10,11 @@ function Redirect() {
     const [url, setUrl] = useState('');
     useEffect(() => {
         let isActive = true;
-        axios.get(`https://url-shortener-ra.herokuapp.com/${id}/url`)
+        axios.get(`${config.URL}/${id}/url`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then((resp) => {
                 if (isActive) {
                     console.log(resp.data.url);
@@ -18,7 +24,7 @@ function Redirect() {
             })
             .catch((err) => {
                 // TODO: HANDLE ERROR
-                console.log(err);
+                swal("Oops!", "Something went wrong! Try again.", "error");
             })
 
         return () => {

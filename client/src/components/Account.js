@@ -12,6 +12,7 @@ import swal from 'sweetalert';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import config from './static/config';
 
 const link = window.location.hostname;
 
@@ -52,7 +53,11 @@ function Account() {
     const [deleteDialog, setDeleteDialog] = useState(false);
 
     const fetchInfo = () => {
-        axios.get('https://url-shortener-ra.herokuapp.com/account')
+        axios.get(`${config.URL}/account`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then((resp) => {
                 if (resp.data.status === 'OK') {
                     const date = resp.data.userInfo.createdAt.split('T')[0];
@@ -84,7 +89,11 @@ function Account() {
         })
             .then((resp) => {
                 if (resp) {
-                    axios.post('https://url-shortener-ra.herokuapp.com/account/delete-post', { deleteSlug })
+                    axios.post(`${config.URL}/account/delete-post`, { deleteSlug }, {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    })
                         .then((resp) => {
                             if (resp.data.status === 'OK') {
                                 const { id, postsLen } = resp.data;
@@ -109,7 +118,11 @@ function Account() {
             newSlug: newSlug
         }).then((resp) => {
             if (resp) {
-                axios.put('https://url-shortener-ra.herokuapp.com/account/update-slug', { oldSlug, newSlug })
+                axios.put(`${config.URL}/account/update-slug`, { oldSlug, newSlug }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
                     .then((resp) => {
                         if (resp.data.status === 'OK') {
                             const { id } = resp.data;
@@ -135,10 +148,14 @@ function Account() {
     }
 
     const handleDeleteAccount = () => {
-        axios.delete('https://url-shortener-ra.herokuapp.com/account/delete-account')
+        axios.delete(`${config.URL}/account/delete-account`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then((resp) => {
                 if (resp.data.status === 'OK') {
-                    localStorage.removeItem('user_info');
+                    localStorage.removeItem('token');
                     history.push('/register');
                 }
             })
