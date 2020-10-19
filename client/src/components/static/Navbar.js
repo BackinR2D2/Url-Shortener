@@ -27,7 +27,9 @@ function Navbar() {
 
     const logout = () => {
         axios.delete(`${config.URL}/logout`, {
-            headers: config.setHeaders
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
         })
             .then((resp) => {
                 if (resp.data.status === 'OK') {
