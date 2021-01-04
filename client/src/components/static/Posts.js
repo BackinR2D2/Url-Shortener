@@ -1,8 +1,8 @@
 import React from 'react';
 
 class Posts extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             currentPage: 1,
             postsPerPage: 3,
