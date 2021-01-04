@@ -99,6 +99,7 @@ function Account() {
                                 setPostsLength(postsLen);
                                 setDeleteForm(false);
                                 setPosts(posts);
+                                console.log(posts.length, postsLength);
                             }
                         })
                 } else {
@@ -198,28 +199,31 @@ function Account() {
                     </div>
                     <hr />
                     <br />
-                    <div className="buttonSection">
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                            startIcon={<UpdateIcon />}
-                            style={{ display: posts.length === 0 || postsLength === 0 ? 'none' : 'block' }}
-                            onClick={() => setForm(true)}
-                        >
-                            Update Slug
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.button}
-                            startIcon={<DeleteIcon />}
-                            style={{ display: posts.length === 0 || postsLength === 0 ? 'none' : 'block' }}
-                            onClick={() => setDeleteForm(true)}
-                        >
-                            Delete Slug
-                        </Button>
-                    </div>
+                    {
+                        posts.length === 0 || postsLength === 0 ?
+                            ''
+                            :
+                            <div className="buttonSection">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                    startIcon={<UpdateIcon />}
+                                    onClick={() => setForm(true)}
+                                >
+                                    Update Slug
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    className={classes.button}
+                                    startIcon={<DeleteIcon />}
+                                    onClick={() => setDeleteForm(true)}
+                                >
+                                    Delete Slug
+                                </Button>
+                            </div>
+                    }
                     <div className="posts container">
                         <Posts posts={posts} />
                     </div>
