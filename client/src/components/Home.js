@@ -24,8 +24,6 @@ function Home() {
         logoutbtn.style.display = 'block';
     }, [])
 
-
-
     const handleButton = (e) => {
         schema.isValid({
             url: url,

@@ -6,7 +6,6 @@ const auth = require('./auth');
 router.get('/account', auth, async (req, res) => {
     try {
         const { id } = req.user;
-        // const uid = jwt.verify(req.cookies.token, process.env.secret).id;
         const user = await User.findOne({ _id: id });
         const userInfo = {
             posts: user.posts,
@@ -28,7 +27,6 @@ router.post('/account/delete-post', auth, async (req, res) => {
     try {
         const { deleteSlug } = req.body;
         const { id } = req.user;
-        // const uid = jwt.verify(req.cookies.token, process.env.secret).id;
         const user = await User.findOne({ _id: id });
         const posts = user.posts;
         posts.forEach(async (post, i) => {
@@ -43,6 +41,7 @@ router.post('/account/delete-post', auth, async (req, res) => {
                     status: 'OK',
                     id: post.postID,
                     postsLen: posts.length,
+                    posts: saved.posts,
                 })
                 return;
             }
@@ -59,7 +58,6 @@ router.get('/:id/url', auth, async (req, res) => {
     try {
         const { id } = req.params;
         const uid = req.user.id;
-        // const uid = jwt.verify(req.cookies.token, process.env.secret).id;
         const user = await User.findOne({ _id: uid });
         const posts = user.posts;
         posts.forEach(post => {

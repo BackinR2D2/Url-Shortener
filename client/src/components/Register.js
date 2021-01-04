@@ -143,7 +143,7 @@ function Register() {
                     <div>
                         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                             <DialogTitle id="form-dialog-title">
-                                <p className="dialogTitle">Verify Slug</p>
+                                <p className="dialogTitle">Verify Code</p>
                             </DialogTitle>
                             <DialogContent>
                                 <div className="dfac">

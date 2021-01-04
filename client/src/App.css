@@ -132,3 +132,7 @@ label + .MuiInput-formControl {
     text-align: center;
     color: red;
 }
+
+.pagination {
+    justify-content: center;
+}
