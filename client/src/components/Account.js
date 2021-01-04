@@ -199,7 +199,7 @@ function Account() {
                     <hr />
                     <br />
                     {
-                        posts && posts.length === 0 ?
+                        (posts && posts.length === 0) || posts === undefined ?
                             <></>
                             :
                             <div className="buttonSection">
