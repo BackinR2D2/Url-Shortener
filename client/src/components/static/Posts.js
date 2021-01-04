@@ -117,6 +117,7 @@ class Posts extends React.Component {
                     <li key={number} id={number}><button className="btn btn-dark" id={number} onClick={this.handleClick}>{number}</button></li>
                 )
             }
+            return null;
         });
 
         let pageIncrementBtn = null;

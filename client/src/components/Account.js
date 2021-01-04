@@ -99,7 +99,6 @@ function Account() {
                                 setPostsLength(postsLen);
                                 setDeleteForm(false);
                                 setPosts(posts);
-                                console.log(posts.length, postsLength);
                             }
                         })
                 } else {
