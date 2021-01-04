@@ -79,7 +79,7 @@ class Posts extends React.Component {
         const indexOfFirstTodo = indexOfLastTodo - postsPerPage;
         const currentTodos = this.props.posts && this.props.posts.slice(indexOfFirstTodo, indexOfLastTodo);
         const link = window.location.hostname;
-        const renderTodos = currentTodos.map((post, index) => {
+        const renderTodos = currentTodos && currentTodos.map((post, index) => {
             return (
                 <div className={`card text-center ${post.postID}`} key={index} >
                     <div className="card-header">
@@ -106,7 +106,7 @@ class Posts extends React.Component {
             pageNumbers.push(i);
         }
 
-        const renderPageNumbers = pageNumbers.map(number => {
+        const renderPageNumbers = pageNumbers && pageNumbers.map(number => {
             if (number === 1 && currentPage === 1) {
                 return (
                     <li key={number} className='active' id={number}><button className="btn btn-dark" id={number} onClick={this.handleClick}>{number}</button></li>
@@ -146,7 +146,7 @@ class Posts extends React.Component {
             <div>
                 <ul>
                     {
-                        renderTodos.length !== 0 ?
+                        renderTodos && renderTodos.length !== 0 ?
                             renderTodos
                             :
                             <div className="card">
