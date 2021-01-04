@@ -199,8 +199,8 @@ function Account() {
                     <hr />
                     <br />
                     {
-                        posts.length === 0 || postsLength === 0 ?
-                            ''
+                        posts.length === 0 ?
+                            <></>
                             :
                             <div className="buttonSection">
                                 <Button
