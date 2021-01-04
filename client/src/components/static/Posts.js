@@ -27,7 +27,7 @@ class Posts extends React.Component {
         this.setPrevAndNextBtnClass(listid);
     }
     setPrevAndNextBtnClass(listid) {
-        let totalPage = Math.ceil(this.props.posts.length / this.state.postsPerPage);
+        let totalPage = Math.ceil(this.props.posts && this.props.posts.length / this.state.postsPerPage);
         this.setState({ isNextBtnActive: 'disabled' });
         this.setState({ isPrevBtnActive: 'disabled' });
         if (totalPage === listid && totalPage > 1) {
@@ -77,7 +77,7 @@ class Posts extends React.Component {
         const { currentPage, postsPerPage, upperPageBound, lowerPageBound, isPrevBtnActive, isNextBtnActive } = this.state;
         const indexOfLastTodo = currentPage * postsPerPage;
         const indexOfFirstTodo = indexOfLastTodo - postsPerPage;
-        const currentTodos = this.props.posts.slice(indexOfFirstTodo, indexOfLastTodo);
+        const currentTodos = this.props.posts && this.props.posts.slice(indexOfFirstTodo, indexOfLastTodo);
         const link = window.location.hostname;
         const renderTodos = currentTodos.map((post, index) => {
             return (
@@ -102,7 +102,7 @@ class Posts extends React.Component {
 
         const pageNumbers = [];
 
-        for (let i = 1; i <= Math.ceil(this.props.posts.length / postsPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(this.props.posts && this.props.posts.length / postsPerPage); i++) {
             pageNumbers.push(i);
         }
 
@@ -157,7 +157,7 @@ class Posts extends React.Component {
                     }
                 </ul>
                 {
-                    this.props.posts.length <= 3 ?
+                    this.props.posts && this.props.posts.length <= 3 ?
                         <ul id="page-numbers" className="pagination">
                             {renderPageNumbers}
                         </ul>
