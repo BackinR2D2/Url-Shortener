@@ -158,11 +158,11 @@ class Posts extends React.Component {
                 </ul>
                 {
                     this.props.posts && this.props.posts.length <= 3 ?
-                        <ul id="page-numbers" className="pagination">
+                        <ul id="page-numbers" className="pagination" style={this.props.posts === undefined ? { display: 'none' } : { display: 'initial' }}>
                             {renderPageNumbers}
                         </ul>
                         :
-                        <ul id="page-numbers" className="pagination">
+                        <ul id="page-numbers" className="pagination" style={this.props.posts === undefined ? { display: 'none' } : { display: 'initial' }}>
                             {renderPrevBtn}
                             {pageDecrementBtn}
                             {renderPageNumbers}

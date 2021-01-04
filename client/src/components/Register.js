@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
@@ -29,6 +29,16 @@ function Register() {
     const [confirmPass, setConfirmPass] = useState('');
     const [isModal, setIsModal] = useState(false);
     const [errMsg, setErrMsg] = useState(false);
+
+    useEffect(() => {
+        const loginbtn = document.querySelector('.loginBtn')
+        const registerbtn = document.querySelector('.registerBtn')
+        const logoutbtn = document.querySelector('.logoutBtn')
+        loginbtn.style.display = 'none';
+        registerbtn.style.display = 'none';
+        logoutbtn.style.display = 'block';
+    }, [])
+
     const handleEmail = (e) => {
         setEmail(e.target.value);
     }
