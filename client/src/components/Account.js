@@ -95,7 +95,10 @@ function Account() {
                     })
                         .then((resp) => {
                             if (resp.data.status === 'OK') {
-                                const { postsLen, posts } = resp.data;
+                                const { id, postsLen, posts } = resp.data;
+                                console.log(resp.data);
+                                // const deletedPost = document.querySelector(`.${id}`);
+                                // console.log(deletedPost);
                                 setPostsLength(postsLen);
                                 setDeleteForm(false);
                                 setPosts(posts);
