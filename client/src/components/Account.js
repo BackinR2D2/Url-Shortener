@@ -13,6 +13,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import config from './static/config';
+import Posts from './static/Posts';
 
 const link = window.location.hostname;
 
@@ -51,7 +52,6 @@ function Account() {
     const [deleteForm, setDeleteForm] = useState(false);
     const [deleteSlug, setDeleteSlug] = useState('');
     const [deleteDialog, setDeleteDialog] = useState(false);
-
     const fetchInfo = () => {
         axios.get(`${config.URL}/account`, {
             headers: {
@@ -80,7 +80,6 @@ function Account() {
             })
 
     }
-
     useEffect(fetchInfo, [])
 
     const handleDelete = () => {
@@ -96,11 +95,10 @@ function Account() {
                     })
                         .then((resp) => {
                             if (resp.data.status === 'OK') {
-                                const { id, postsLen } = resp.data;
+                                const { postsLen, posts } = resp.data;
                                 setPostsLength(postsLen);
-                                const deletedPost = document.getElementsByClassName(id)[0];
-                                deletedPost.style.display = 'none';
                                 setDeleteForm(false);
+                                setPosts(posts);
                             }
                         })
                 } else {
@@ -223,26 +221,7 @@ function Account() {
                         </Button>
                     </div>
                     <div className="posts container">
-                        {
-                            posts.map(post => (
-                                <div className={`card text-center ${post.postID}`} key={post.postID} >
-                                    <div className="card-header">
-                                        <h5 className={post.postID}>Slug <span className="uinfo">{post.slug}</span></h5>
-                                    </div>
-                                    <div className="card-body">
-                                        <h5 className="card-title">
-                                            Initial Url: <a href={`${post.url}`} target="_blank" rel="noopener noreferrer" > {post.url} </a>
-                                        </h5>
-                                        <h5>
-                                            New Url: <a href={`${post.slug}/url`} target="_blank" rel="noopener noreferrer" className={post.postID}> {`${link}/${post.slug}/url`} </a>
-                                        </h5>
-                                    </div>
-                                    <div className="card-footer text-muted">
-                                        Created at: {post.date}
-                                    </div>
-                                </div>
-                            ))
-                        }
+                        <Posts posts={posts} />
                     </div>
                     {
                         form === true ?
