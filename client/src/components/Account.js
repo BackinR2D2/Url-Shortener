@@ -15,8 +15,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import config from './static/config';
 import Posts from './static/Posts';
 
-const link = window.location.hostname;
-
 const schema = yup.object().shape({
     oldSlug: yup.string().max(40).trim().required().matches(/^[\w-]+$/i),
     newSlug: yup.string().max(40).trim().required().matches(/^[\w-]+$/i),
@@ -137,13 +135,8 @@ function Account() {
                 })
                     .then((resp) => {
                         if (resp.data.status === 'OK') {
-                            const { id } = resp.data;
-                            const updatedSlug = document.getElementsByClassName(id)[1];
-                            const updatedPost = document.getElementsByClassName(id)[2];
-                            updatedSlug.innerText = `Slug ${newSlug}`;
-                            updatedPost.innerText = `${link}/${newSlug}/url`;
-                            updatedPost.href = `${newSlug}/url`;
                             setForm(false);
+                            getPosts();
                         }
                     })
                     .catch((err) => {
