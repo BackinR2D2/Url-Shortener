@@ -101,7 +101,8 @@ function Account() {
                                 // console.log(deletedPost);
                                 setPostsLength(postsLen);
                                 setDeleteForm(false);
-                                setPosts(posts);
+                                fetchInfo();
+                                // setPosts(posts);
                             }
                         })
                 } else {

@@ -3,7 +3,6 @@ import React from 'react';
 class Posts extends React.Component {
     constructor(props) {
         super(props);
-        this.props = props;
         this.state = {
             currentPage: 1,
             postsPerPage: 3,
