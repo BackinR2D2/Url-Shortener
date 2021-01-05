@@ -136,3 +136,7 @@ label + .MuiInput-formControl {
 .pagination {
     justify-content: center;
 }
+
+.padding0 {
+    padding: 0;
+}

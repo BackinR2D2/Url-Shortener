@@ -144,7 +144,7 @@ class Posts extends React.Component {
         }
         return (
             <div>
-                <ul>
+                <ul className="padding0">
                     {
                         renderTodos && renderTodos.length !== 0 ?
                             renderTodos
