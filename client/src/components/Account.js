@@ -51,6 +51,7 @@ function Account() {
     const [deleteForm, setDeleteForm] = useState(false);
     const [deleteSlug, setDeleteSlug] = useState('');
     const [deleteDialog, setDeleteDialog] = useState(false);
+
     const fetchInfo = () => {
         axios.get(`${config.URL}/account`, {
             headers: {
@@ -81,6 +82,22 @@ function Account() {
     }
     useEffect(fetchInfo, [])
 
+    const getPosts = () => {
+        axios.get(`${config.URL}/account`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then((resp) => {
+                if (resp.data.status === 'OK') {
+                    setPosts(resp.data.userInfo.posts);
+                }
+            })
+            .catch((err) => {
+                swal("Oops!", "Something went wrong! Try again.", "error");
+            })
+    }
+
     const handleDelete = () => {
         deleteSchema.isValid({
             deleteSlug,
@@ -95,7 +112,8 @@ function Account() {
                         .then((resp) => {
                             if (resp.data.status === 'OK') {
                                 setDeleteForm(false);
-                                fetchInfo();
+                                // fetchInfo();
+                                getPosts();
                             }
                         })
                 } else {
