@@ -74,7 +74,6 @@ class Posts extends React.Component {
         this.setPrevAndNextBtnClass(listid);
     }
     render() {
-        console.log(this.props.posts);
         const { currentPage, postsPerPage, upperPageBound, lowerPageBound, isPrevBtnActive, isNextBtnActive } = this.state;
         const indexOfLastTodo = currentPage * postsPerPage;
         const indexOfFirstTodo = indexOfLastTodo - postsPerPage;

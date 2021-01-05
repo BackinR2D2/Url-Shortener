@@ -48,7 +48,6 @@ function Account() {
     const [newSlug, setNewSlug] = useState('');
     const [form, setForm] = useState(false);
     const [oldSlug, setOldSlug] = useState('');
-    const [postsLength, setPostsLength] = useState();
     const [deleteForm, setDeleteForm] = useState(false);
     const [deleteSlug, setDeleteSlug] = useState('');
     const [deleteDialog, setDeleteDialog] = useState(false);
@@ -95,14 +94,8 @@ function Account() {
                     })
                         .then((resp) => {
                             if (resp.data.status === 'OK') {
-                                const { id, postsLen, posts } = resp.data;
-                                console.log(resp.data);
-                                // const deletedPost = document.querySelector(`.${id}`);
-                                // console.log(deletedPost);
-                                setPostsLength(postsLen);
                                 setDeleteForm(false);
                                 fetchInfo();
-                                // setPosts(posts);
                             }
                         })
                 } else {
@@ -203,7 +196,7 @@ function Account() {
                     <hr />
                     <br />
                     {
-                        (posts && posts.length === 0) || posts === undefined ?
+                        (posts && posts.length === 0) ?
                             <></>
                             :
                             <div className="buttonSection">
