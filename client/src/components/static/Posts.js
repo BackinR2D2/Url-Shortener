@@ -79,6 +79,7 @@ class Posts extends React.Component {
         const indexOfFirstTodo = indexOfLastTodo - postsPerPage;
         const currentTodos = this.props.posts && this.props.posts.slice(indexOfFirstTodo, indexOfLastTodo);
         const link = window.location.hostname;
+        const truncate = (str) => str.length > 40 ? `${str.substring(0, 40)}...` : str;
         const renderTodos = currentTodos && currentTodos.map((post, index) => {
             return (
                 <div className={`card text-center ${post.postID}`} key={index} >
@@ -87,7 +88,7 @@ class Posts extends React.Component {
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">
-                            Initial Url: <a href={`${post.url}`} target="_blank" rel="noopener noreferrer" > {post.url} </a>
+                            Initial Url: <a href={`${post.url}`} target="_blank" rel="noopener noreferrer" > {truncate(post.url)} </a>
                         </h5>
                         <h5>
                             New Url: <a href={`${post.slug}/url`} target="_blank" rel="noopener noreferrer" className={post.postID}> {`${link}/${post.slug}/url`} </a>
