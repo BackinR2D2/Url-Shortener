@@ -112,7 +112,6 @@ function Account() {
                         .then((resp) => {
                             if (resp.data.status === 'OK') {
                                 setDeleteForm(false);
-                                // fetchInfo();
                                 getPosts();
                             }
                         })
