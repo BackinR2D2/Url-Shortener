@@ -17,7 +17,6 @@ function Redirect() {
         })
             .then((resp) => {
                 if (isActive) {
-                    console.log(resp.data.url);
                     setUrl(resp.data.url);
                     setLoading(false);
                 }
