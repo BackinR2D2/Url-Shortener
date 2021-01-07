@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 
 router.post('/', auth, async (req, res) => {
     const { id } = req.user;
-    console.log(req.user);
     const { url, slug } = req.body;
     const postID = mongoose.Types.ObjectId();
 
