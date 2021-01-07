@@ -109,11 +109,8 @@ function Account() {
                     })
                         .then((resp) => {
                             if (resp.data.status === 'OK') {
-                                const { posts } = resp.data;
-                                console.log(posts);
                                 setDeleteForm(false);
-                                // getPosts();
-                                setPosts(posts);
+                                getPosts();
                             }
                         })
                 } else {
@@ -138,10 +135,8 @@ function Account() {
                 })
                     .then((resp) => {
                         if (resp.data.status === 'OK') {
-                            const { posts } = resp.data;
-                            console.log(posts);
                             setForm(false);
-                            setPosts(posts);
+                            getPosts();
                         }
                     })
                     .catch((err) => {

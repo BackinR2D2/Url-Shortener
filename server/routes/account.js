@@ -39,7 +39,6 @@ router.post('/account/delete-post', auth, async (req, res) => {
                 }, { new: true })
                 res.status(201).json({
                     status: 'OK',
-                    posts: savedUser.posts,
                 })
                 return;
             }
@@ -109,7 +108,6 @@ router.put('/account/update-slug', auth, async (req, res) => {
                     }, { new: true })
                     res.status(201).json({
                         status: 'OK',
-                        posts: savedUser.posts,
                         id: post.postID
                     })
                     return;
