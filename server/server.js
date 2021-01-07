@@ -23,7 +23,6 @@ mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: t
         console.log('Connected to DB.');
     })
     .catch((err) => {
-        // TODO: HANDLE ERROR
         console.log(err);
     })
 
