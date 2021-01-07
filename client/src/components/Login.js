@@ -21,9 +21,9 @@ function Login() {
         const loginbtn = document.querySelector('.loginBtn')
         const registerbtn = document.querySelector('.registerBtn')
         const logoutbtn = document.querySelector('.logoutBtn')
-        loginbtn.style.display = 'none';
-        registerbtn.style.display = 'none';
-        logoutbtn.style.display = 'block';
+        loginbtn.style.display = 'block';
+        registerbtn.style.display = 'block';
+        logoutbtn.style.display = 'none';
     }, [])
 
     const handleEmail = (e) => {
