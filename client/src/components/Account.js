@@ -14,6 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import config from './static/config';
 import Posts from './static/Posts';
+import SearchInp from './static/SearchInp';
 
 const schema = yup.object().shape({
     oldSlug: yup.string().max(40).trim().required().matches(/^[\w-]+$/i),
@@ -49,6 +50,8 @@ function Account() {
     const [deleteForm, setDeleteForm] = useState(false);
     const [deleteSlug, setDeleteSlug] = useState('');
     const [deleteDialog, setDeleteDialog] = useState(false);
+    const [filterPosts, setFilterPosts] = useState([]);
+    const [isChanged, setIsChanged] = useState(false);
 
     const fetchInfo = () => {
         axios.get(`${config.URL}/account`, {
@@ -61,6 +64,7 @@ function Account() {
                     const date = resp.data.userInfo.createdAt.split('T')[0];
                     setEmail(resp.data.userInfo.email);
                     setPosts(resp.data.userInfo.posts);
+                    setFilterPosts(resp.data.userInfo.posts);
                     setCreated(date);
                     const loginbtn = document.querySelector('.loginBtn')
                     const registerbtn = document.querySelector('.registerBtn')
@@ -89,6 +93,8 @@ function Account() {
             .then((resp) => {
                 if (resp.data.status === 'OK') {
                     setPosts(resp.data.userInfo.posts);
+                    setFilterPosts(resp.data.userInfo.posts);
+                    // setIsChanged(false);
                 }
             })
             .catch((err) => {
@@ -110,6 +116,7 @@ function Account() {
                         .then((resp) => {
                             if (resp.data.status === 'OK') {
                                 setDeleteForm(false);
+                                setIsChanged(true);
                                 getPosts();
                             }
                         })
@@ -136,6 +143,7 @@ function Account() {
                     .then((resp) => {
                         if (resp.data.status === 'OK') {
                             setForm(false);
+                            setIsChanged(true);
                             getPosts();
                         }
                     })
@@ -167,6 +175,11 @@ function Account() {
             .catch((err) => {
                 swal("Oops!", "Something went wrong! Try again.", "error");
             })
+    }
+
+    const updateFilteredPosts = (filteredPosts) => {
+        setIsChanged(false);
+        setFilterPosts(filteredPosts);
     }
 
     const handleClose = () => {
@@ -205,33 +218,38 @@ function Account() {
                     </div>
                     <hr />
                     <br />
-                    {
-                        (posts && posts.length === 0) ?
-                            <></>
-                            :
-                            <div className="buttonSection">
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.button}
-                                    startIcon={<UpdateIcon />}
-                                    onClick={() => setForm(true)}
-                                >
-                                    Update Slug
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    className={classes.button}
-                                    startIcon={<DeleteIcon />}
-                                    onClick={() => setDeleteForm(true)}
-                                >
-                                    Delete Slug
-                                </Button>
-                            </div>
-                    }
+                    <div className="postManagement container">
+                        <div className="slugSearch">
+                            <SearchInp posts={posts} updateFilteredPosts={updateFilteredPosts} isChanged={isChanged} />
+                        </div>
+                        {
+                            (posts && posts.length === 0) ?
+                                <></>
+                                :
+                                <div className="buttonSection">
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.button}
+                                        startIcon={<UpdateIcon />}
+                                        onClick={() => setForm(true)}
+                                    >
+                                        Update Slug
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        className={classes.button}
+                                        startIcon={<DeleteIcon />}
+                                        onClick={() => setDeleteForm(true)}
+                                    >
+                                        Delete Slug
+                                    </Button>
+                                </div>
+                        }
+                    </div>
                     <div className="posts container">
-                        <Posts posts={posts} />
+                        <Posts posts={filterPosts} />
                     </div>
                     {
                         form === true ?

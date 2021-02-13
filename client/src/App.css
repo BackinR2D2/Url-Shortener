@@ -140,3 +140,13 @@ label + .MuiInput-formControl {
 .padding0 {
     padding: 0;
 }
+
+.postManagement {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.buttonSection button {
+    margin-left: 12px;
+}

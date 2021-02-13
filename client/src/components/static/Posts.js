@@ -152,7 +152,7 @@ class Posts extends React.Component {
                             :
                             <div className="card">
                                 <div className="card-body">
-                                    No urls on this page.
+                                    No URLs on this page
                                 </div>
                             </div>
                     }
