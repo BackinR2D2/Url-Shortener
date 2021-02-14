@@ -7,8 +7,8 @@ function SearchInp({ posts, updateFilteredPosts, isChanged }) {
 
     const handleInput = (e) => {
         setInp(e.target.value);
-        const item = e.currentTarget.value;
-        const filteredPosts = posts.filter(post => post.slug.includes(item))
+        const item = (e.currentTarget.value).toLowerCase().trim().replace(/ +/g, "");
+        const filteredPosts = posts.filter(post => post.slug.toLowerCase().includes(item))
         updateFilteredPosts(filteredPosts);
     }
 
